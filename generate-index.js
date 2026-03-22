@@ -24,6 +24,7 @@ const SUBJECTS = [
   { key: "englisch",   label: "Englisch",    icon: "🇬🇧" },
   { key: "informatik", label: "Informatik",  icon: "💻" },
   { key: "grw",        label: "GRW",         icon: "🏛" },
+  { key: "sport",      label: "Sport",       icon: "⚽" },
 ];
 
 /** Get the date a file was first committed to Git (ISO YYYY-MM-DD). */
@@ -149,6 +150,7 @@ const html = `<!DOCTYPE html>
     .card[data-subject="englisch"]    { --card-glow: linear-gradient(135deg,rgba(244,63,94,0.06),transparent);   --tag-bg: rgba(244,63,94,0.12);   --tag-color: #fda4af; }
     .card[data-subject="informatik"]  { --card-glow: linear-gradient(135deg,rgba(34,211,238,0.06),transparent);  --tag-bg: rgba(34,211,238,0.12);  --tag-color: #67e8f9; }
     .card[data-subject="grw"]         { --card-glow: linear-gradient(135deg,rgba(234,179,8,0.06),transparent);   --tag-bg: rgba(234,179,8,0.12);   --tag-color: #fde047; }
+    .card[data-subject="sport"]       { --card-glow: linear-gradient(135deg,rgba(251,146,60,0.06),transparent);  --tag-bg: rgba(251,146,60,0.12);  --tag-color: #fb923c; }
     .overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,10,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
     .overlay.active { display: flex; }
     .modal { background: #14141e; border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; width: 100%; max-width: 580px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both; }
@@ -218,6 +220,7 @@ const META = {
   englisch:   { icon: "🇬🇧", label: "Englisch" },
   informatik: { icon: "💻",  label: "Informatik" },
   grw:        { icon: "🏛",  label: "GRW" },
+  sport:      { icon: "⚽",  label: "Sport" },
 };
 function openSubject(subj) {
   const items = [...DATA[subj]].sort((a,b) => b.date.localeCompare(a.date));

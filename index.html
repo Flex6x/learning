@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lernhub</title>
+  <title>Lernübersichten</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,6 +53,7 @@
     .card[data-subject="englisch"]    { --card-glow: linear-gradient(135deg,rgba(244,63,94,0.06),transparent);   --tag-bg: rgba(244,63,94,0.12);   --tag-color: #fda4af; }
     .card[data-subject="informatik"]  { --card-glow: linear-gradient(135deg,rgba(34,211,238,0.06),transparent);  --tag-bg: rgba(34,211,238,0.12);  --tag-color: #67e8f9; }
     .card[data-subject="grw"]         { --card-glow: linear-gradient(135deg,rgba(234,179,8,0.06),transparent);   --tag-bg: rgba(234,179,8,0.12);   --tag-color: #fde047; }
+    .card[data-subject="sport"]       { --card-glow: linear-gradient(135deg,rgba(251,146,60,0.06),transparent);  --tag-bg: rgba(251,146,60,0.12);  --tag-color: #fb923c; }
     .overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,5,10,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
     .overlay.active { display: flex; }
     .modal { background: #14141e; border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; width: 100%; max-width: 580px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both; }
@@ -85,6 +86,7 @@
     .card:nth-child(9) { animation-delay: 0.45s; }
     .card:nth-child(10) { animation-delay: 0.50s; }
     .card:nth-child(11) { animation-delay: 0.55s; }
+    .card:nth-child(12) { animation-delay: 0.60s; }
     footer { position: relative; z-index: 1; text-align: center; padding: 0 1rem 2rem; font-size: 0.78rem; color: var(--muted); }
     @media (max-width: 500px) { main { grid-template-columns: 1fr 1fr; gap: 0.9rem; } .card { padding: 1.25rem 1rem; } .card-icon { font-size: 1.8rem; } }
   </style>
@@ -94,9 +96,13 @@
 <div class="blob blob2"></div>
 <header>
   <div class="logo-label">📚 Lernübersichten</div>
-  <h1>Felix's<br>Lernhub</h1>
+  <h1>Mein<br>Lernhub</h1>
   <p class="subtitle">Alle Fächer — sauber sortiert, jederzeit verfügbar.</p>
 </header>
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="search" placeholder="Fach suchen …" autocomplete="off"/>
+</div>
 <main id="grid">
 
   <div class="card" data-subject="mathe" onclick="openSubject('mathe')">
@@ -119,7 +125,7 @@
     <span class="card-arrow">↗</span>
     <span class="card-icon">🏛️</span>
     <div class="card-name">Geschichte</div>
-    <div class="card-count" id="count-geschichte">Noch keine Übersichten</div>
+    <div class="card-count" id="count-geschichte">1 Übersicht</div>
     <span class="card-tag">Geschichte</span>
   </div>
 
@@ -127,7 +133,7 @@
     <span class="card-arrow">↗</span>
     <span class="card-icon">🎵</span>
     <div class="card-name">Musik</div>
-    <div class="card-count" id="count-musik">Noch keine Übersichten</div>
+    <div class="card-count" id="count-musik">1 Übersicht</div>
     <span class="card-tag">Musik</span>
   </div>
 
@@ -143,7 +149,7 @@
     <span class="card-arrow">↗</span>
     <span class="card-icon">🧬</span>
     <div class="card-name">Biologie</div>
-    <div class="card-count" id="count-biologie">Noch keine Übersichten</div>
+    <div class="card-count" id="count-biologie">1 Übersicht</div>
     <span class="card-tag">Biologie</span>
   </div>
 
@@ -159,7 +165,7 @@
     <span class="card-arrow">↗</span>
     <span class="card-icon">🔭</span>
     <div class="card-name">Astronomie</div>
-    <div class="card-count" id="count-astronomie">Noch keine Übersichten</div>
+    <div class="card-count" id="count-astronomie">1 Übersicht</div>
     <span class="card-tag">Astronomie</span>
   </div>
 
@@ -167,7 +173,7 @@
     <span class="card-arrow">↗</span>
     <span class="card-icon">🇬🇧</span>
     <div class="card-name">Englisch</div>
-    <div class="card-count" id="count-englisch">Noch keine Übersichten</div>
+    <div class="card-count" id="count-englisch">1 Übersicht</div>
     <span class="card-tag">Englisch</span>
   </div>
 
@@ -185,6 +191,14 @@
     <div class="card-name">GRW</div>
     <div class="card-count" id="count-grw">Noch keine Übersichten</div>
     <span class="card-tag">GRW</span>
+  </div>
+
+  <div class="card" data-subject="sport" onclick="openSubject('sport')">
+    <span class="card-arrow">↗</span>
+    <span class="card-icon">⚽</span>
+    <div class="card-name">Sport</div>
+    <div class="card-count" id="count-sport">Noch keine Übersichten</div>
+    <span class="card-tag">Sport</span>
   </div>
 </main>
 <footer>Dein persönlicher Lernhub · Gehostet via GitHub Pages</footer>
@@ -205,15 +219,46 @@
 const DATA = {
   "mathe": [],
   "physik": [],
-  "geschichte": [],
-  "musik": [],
+  "geschichte": [
+    {
+      "file": "Industrialisierung.html",
+      "name": "Industrialisierung",
+      "date": "2026-03-22"
+    }
+  ],
+  "musik": [
+    {
+      "file": "Renaissance.html",
+      "name": "Renaissance",
+      "date": "2026-03-22"
+    }
+  ],
   "deutsch": [],
-  "biologie": [],
+  "biologie": [
+    {
+      "file": "Enzyme.html",
+      "name": "Enzyme",
+      "date": "2026-03-22"
+    }
+  ],
   "religion": [],
-  "astronomie": [],
-  "englisch": [],
+  "astronomie": [
+    {
+      "file": "planetenbahnen.html",
+      "name": "Planetenbahnen",
+      "date": "2026-03-22"
+    }
+  ],
+  "englisch": [
+    {
+      "file": "Newspaper.html",
+      "name": "Newspaper",
+      "date": "2026-03-22"
+    }
+  ],
   "informatik": [],
-  "grw": []
+  "grw": [],
+  "sport": []
 };
 const META = {
   mathe:      { icon: "∑",   label: "Mathematik" },
@@ -227,6 +272,7 @@ const META = {
   englisch:   { icon: "🇬🇧", label: "Englisch" },
   informatik: { icon: "💻",  label: "Informatik" },
   grw:        { icon: "🏛",  label: "GRW" },
+  sport:      { icon: "⚽",  label: "Sport" },
 };
 function openSubject(subj) {
   const items = [...DATA[subj]].sort((a,b) => b.date.localeCompare(a.date));
