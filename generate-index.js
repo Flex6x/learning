@@ -1,4 +1,100 @@
-<!DOCTYPE html>
+#!/usr/bin/env node
+/**
+ * generate-index.js
+ * Scans all subject folders, reads Git commit dates for each HTML file,
+ * and writes a fresh index.html.
+ *
+ * Run locally:  node generate-index.js
+ * Run in CI:    called automatically by GitHub Actions
+ */
+
+const { execSync } = require("child_process");
+const fs   = require("fs");
+const path = require("path");
+
+const SUBJECTS = [
+  { key: "mathe",      label: "Mathematik", icon: "∑"  },
+  { key: "physik",     label: "Physik",      icon: "⚛️" },
+  { key: "geschichte", label: "Geschichte",  icon: "🏛️" },
+  { key: "musik",      label: "Musik",       icon: "🎵" },
+  { key: "deutsch",    label: "Deutsch",     icon: "📝" },
+  { key: "biologie",   label: "Biologie",    icon: "🧬" },
+  { key: "religion",   label: "Religion",    icon: "☮️" },
+  { key: "astronomie", label: "Astronomie",  icon: "🔭" },
+  { key: "englisch",   label: "Englisch",    icon: "🇬🇧" },
+  { key: "informatik", label: "Informatik",  icon: "💻" },
+  { key: "grw",        label: "GRW",         icon: "🏛" },
+];
+
+/** Get the date a file was first committed to Git (ISO YYYY-MM-DD). */
+function getGitDate(filePath) {
+  try {
+    const out = execSync(
+      `git log --diff-filter=A --follow --format="%aI" -- "${filePath}"`,
+      { encoding: "utf8" }
+    ).trim();
+    // Take the last line (oldest / first-added commit)
+    const lines = out.split("\n").filter(Boolean);
+    const iso = lines[lines.length - 1];
+    if (!iso) throw new Error("no date");
+    return iso.slice(0, 10); // YYYY-MM-DD
+  } catch {
+    // Fallback: file system mtime
+    const stat = fs.statSync(filePath);
+    return stat.mtime.toISOString().slice(0, 10);
+  }
+}
+
+/** Turn a filename into a readable title. */
+function nameToTitle(filename) {
+  return filename
+    .replace(/\.html?$/i, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Build data for every subject
+const data = {};
+for (const subj of SUBJECTS) {
+  const dir = path.join(__dirname, subj.key);
+  if (!fs.existsSync(dir)) { data[subj.key] = []; continue; }
+
+  const files = fs.readdirSync(dir)
+    .filter(f => f.endsWith(".html") && !f.startsWith("."));
+
+  data[subj.key] = files.map(file => ({
+    file,
+    name: nameToTitle(file),
+    date: getGitDate(path.join(subj.key, file)),
+  }));
+}
+
+// Serialize for embedding in HTML
+const dataJson = JSON.stringify(data, null, 2);
+
+// Build card animation delays
+const cardDelays = SUBJECTS.map((_, i) =>
+  `.card:nth-child(${i + 1}) { animation-delay: ${(i * 0.05 + 0.05).toFixed(2)}s; }`
+).join("\n    ");
+
+// Build card HTML
+const cards = SUBJECTS.map(s => {
+  const count = data[s.key].length;
+  const countText = count === 0
+    ? "Noch keine Übersichten"
+    : count + (count === 1 ? " Übersicht" : " Übersichten");
+
+  return `
+  <div class="card" data-subject="${s.key}" onclick="openSubject('${s.key}')">
+    <span class="card-arrow">↗</span>
+    <span class="card-icon">${s.icon}</span>
+    <div class="card-name">${s.label}</div>
+    <div class="card-count" id="count-${s.key}">${countText}</div>
+    <span class="card-tag">${s.label}</span>
+  </div>`;
+}).join("\n");
+
+const html = `<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -74,17 +170,7 @@
     @keyframes fadeDown { from { opacity:0; transform:translateY(-18px); } to { opacity:1; transform:translateY(0); } }
     @keyframes fadeUp   { from { opacity:0; transform:translateY(22px);  } to { opacity:1; transform:translateY(0); } }
     @keyframes popIn    { from { opacity:0; transform:scale(0.9); }        to { opacity:1; transform:scale(1);   } }
-    .card:nth-child(1) { animation-delay: 0.05s; }
-    .card:nth-child(2) { animation-delay: 0.10s; }
-    .card:nth-child(3) { animation-delay: 0.15s; }
-    .card:nth-child(4) { animation-delay: 0.20s; }
-    .card:nth-child(5) { animation-delay: 0.25s; }
-    .card:nth-child(6) { animation-delay: 0.30s; }
-    .card:nth-child(7) { animation-delay: 0.35s; }
-    .card:nth-child(8) { animation-delay: 0.40s; }
-    .card:nth-child(9) { animation-delay: 0.45s; }
-    .card:nth-child(10) { animation-delay: 0.50s; }
-    .card:nth-child(11) { animation-delay: 0.55s; }
+    ${cardDelays}
     footer { position: relative; z-index: 1; text-align: center; padding: 0 1rem 2rem; font-size: 0.78rem; color: var(--muted); }
     @media (max-width: 500px) { main { grid-template-columns: 1fr 1fr; gap: 0.9rem; } .card { padding: 1.25rem 1rem; } .card-icon { font-size: 1.8rem; } }
   </style>
@@ -102,94 +188,7 @@
   <input type="text" id="search" placeholder="Fach suchen …" autocomplete="off"/>
 </div>
 <main id="grid">
-
-  <div class="card" data-subject="mathe" onclick="openSubject('mathe')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">∑</span>
-    <div class="card-name">Mathematik</div>
-    <div class="card-count" id="count-mathe">Noch keine Übersichten</div>
-    <span class="card-tag">Mathematik</span>
-  </div>
-
-  <div class="card" data-subject="physik" onclick="openSubject('physik')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">⚛️</span>
-    <div class="card-name">Physik</div>
-    <div class="card-count" id="count-physik">Noch keine Übersichten</div>
-    <span class="card-tag">Physik</span>
-  </div>
-
-  <div class="card" data-subject="geschichte" onclick="openSubject('geschichte')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">🏛️</span>
-    <div class="card-name">Geschichte</div>
-    <div class="card-count" id="count-geschichte">Noch keine Übersichten</div>
-    <span class="card-tag">Geschichte</span>
-  </div>
-
-  <div class="card" data-subject="musik" onclick="openSubject('musik')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">🎵</span>
-    <div class="card-name">Musik</div>
-    <div class="card-count" id="count-musik">Noch keine Übersichten</div>
-    <span class="card-tag">Musik</span>
-  </div>
-
-  <div class="card" data-subject="deutsch" onclick="openSubject('deutsch')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">📝</span>
-    <div class="card-name">Deutsch</div>
-    <div class="card-count" id="count-deutsch">Noch keine Übersichten</div>
-    <span class="card-tag">Deutsch</span>
-  </div>
-
-  <div class="card" data-subject="biologie" onclick="openSubject('biologie')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">🧬</span>
-    <div class="card-name">Biologie</div>
-    <div class="card-count" id="count-biologie">Noch keine Übersichten</div>
-    <span class="card-tag">Biologie</span>
-  </div>
-
-  <div class="card" data-subject="religion" onclick="openSubject('religion')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">☮️</span>
-    <div class="card-name">Religion</div>
-    <div class="card-count" id="count-religion">Noch keine Übersichten</div>
-    <span class="card-tag">Religion</span>
-  </div>
-
-  <div class="card" data-subject="astronomie" onclick="openSubject('astronomie')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">🔭</span>
-    <div class="card-name">Astronomie</div>
-    <div class="card-count" id="count-astronomie">Noch keine Übersichten</div>
-    <span class="card-tag">Astronomie</span>
-  </div>
-
-  <div class="card" data-subject="englisch" onclick="openSubject('englisch')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">🇬🇧</span>
-    <div class="card-name">Englisch</div>
-    <div class="card-count" id="count-englisch">Noch keine Übersichten</div>
-    <span class="card-tag">Englisch</span>
-  </div>
-
-  <div class="card" data-subject="informatik" onclick="openSubject('informatik')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">💻</span>
-    <div class="card-name">Informatik</div>
-    <div class="card-count" id="count-informatik">Noch keine Übersichten</div>
-    <span class="card-tag">Informatik</span>
-  </div>
-
-  <div class="card" data-subject="grw" onclick="openSubject('grw')">
-    <span class="card-arrow">↗</span>
-    <span class="card-icon">🏛</span>
-    <div class="card-name">GRW</div>
-    <div class="card-count" id="count-grw">Noch keine Übersichten</div>
-    <span class="card-tag">GRW</span>
-  </div>
+${cards}
 </main>
 <footer>Dein persönlicher Lernhub · Gehostet via GitHub Pages</footer>
 <div class="overlay" id="overlay" onclick="closeIfBackdrop(event)">
@@ -206,19 +205,7 @@
   </div>
 </div>
 <script>
-const DATA = {
-  "mathe": [],
-  "physik": [],
-  "geschichte": [],
-  "musik": [],
-  "deutsch": [],
-  "biologie": [],
-  "religion": [],
-  "astronomie": [],
-  "englisch": [],
-  "informatik": [],
-  "grw": []
-};
+const DATA = ${dataJson};
 const META = {
   mathe:      { icon: "∑",   label: "Mathematik" },
   physik:     { icon: "⚛️",  label: "Physik" },
@@ -266,4 +253,7 @@ document.getElementById('search').addEventListener('input', function() {
 });
 </script>
 </body>
-</html>
+</html>`;
+
+fs.writeFileSync(path.join(__dirname, "index.html"), html, "utf8");
+console.log("✅ index.html generated successfully.");

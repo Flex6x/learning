@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌌 Astronomie LK – Lernübersicht</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a18;
+    --bg2: #0a1228;
+    --card: #0d1830;
+    --card2: #111e38;
+    --accent: #4fc3f7;
+    --accent2: #ff6b6b;
+    --accent3: #ffd166;
+    --accent4: #06d6a0;
+    --text: #e8f0fe;
+    --text-muted: #7a90b8;
+    --border: rgba(79,195,247,0.15);
+    --glow: rgba(79,195,247,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  body::before {
+    content:'';
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.9) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 80%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.9) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 90%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(2px 2px at 5% 50%, rgba(200,220,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 75% 5%, rgba(200,220,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 45% 75%, rgba(200,220,255,0.4) 0%, transparent 100%);
+    pointer-events:none; z-index:0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; position:relative; z-index:1; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 50px 20px 30px;
+    position: relative;
+  }
+  header .sun {
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, #fff7aa, #ffcc00, #ff8800);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 40px #ffcc0088, 0 0 80px #ff880044;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{box-shadow: 0 0 40px #ffcc0088, 0 0 80px #ff880044;} 50%{box-shadow: 0 0 60px #ffcc00bb, 0 0 120px #ff880066;} }
+  header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -1px;
+    text-shadow: 0 0 30px rgba(79,195,247,0.5);
+  }
+  header p { color: var(--text-muted); margin-top: 8px; font-size: 1rem; }
+
+  /* CHECKLIST BADGE */
+  .progress-bar-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 10px 0 30px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .progress-label { font-size: 0.9rem; color: var(--text-muted); white-space: nowrap; }
+  .progress-track {
+    flex:1; min-width: 150px;
+    height: 10px; background: var(--bg2); border-radius: 99px; overflow:hidden;
+  }
+  .progress-fill {
+    height:100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent4), var(--accent));
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+  .progress-pct { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--accent4); min-width: 40px; }
+
+  /* TABS */
+  .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
+  .tab-btn {
+    padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text-muted); cursor:pointer;
+    font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .tab-content { display:none; }
+  .tab-content.active { display:block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(79,195,247,0.3); }
+  .card h2 {
+    font-size: 1.15rem; font-weight: 700; color: var(--accent);
+    margin-bottom: 14px; display: flex; align-items:center; gap:8px;
+  }
+  .card h3 { font-size: 1rem; font-weight: 600; color: var(--accent3); margin: 16px 0 8px; }
+  .card p, .card li { font-size: 0.93rem; line-height: 1.7; color: var(--text); }
+  .card ul { padding-left: 18px; }
+  .card li { margin-bottom: 4px; }
+
+  .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  @media(max-width:650px){ .grid-2 { grid-template-columns:1fr; } }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, rgba(79,195,247,0.07), rgba(6,214,160,0.07));
+    border-left: 3px solid var(--accent4);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+  .highlight.yellow { border-color: var(--accent3); background: linear-gradient(135deg, rgba(255,209,102,0.07), transparent); }
+  .highlight.red { border-color: var(--accent2); background: linear-gradient(135deg, rgba(255,107,107,0.07), transparent); }
+
+  /* DATA TABLE */
+  .data-table { width:100%; border-collapse:collapse; font-size: 0.86rem; margin: 12px 0; }
+  .data-table th {
+    background: var(--bg2); color: var(--accent); padding: 10px 12px;
+    text-align:left; font-family:'Space Mono',monospace; font-size:0.78rem;
+    letter-spacing:0.5px; border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
+  }
+  .data-table tr:hover td { background: rgba(79,195,247,0.04); }
+  .data-table .highlight-row td { color: var(--accent3); font-weight: 600; }
+
+  /* FORMULA BOX */
+  .formula {
+    background: var(--bg2);
+    border: 1px solid rgba(255,209,102,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent3);
+    text-align: center;
+  }
+  .formula .formula-name { font-family:'Outfit',sans-serif; font-size:0.8rem; color:var(--text-muted); margin-bottom:6px; text-align:left; }
+  .formula .formula-math { font-size: 1.1rem; }
+  .formula .formula-note { font-family:'Outfit',sans-serif; font-size:0.8rem; color:var(--text-muted); margin-top:8px; text-align:left; }
+
+  /* RECHNER */
+  .calc-input {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); padding: 10px 14px; font-size:0.9rem; width:100%;
+    font-family:'Outfit',sans-serif; margin-top:4px;
+    transition: border-color 0.2s;
+  }
+  .calc-input:focus { outline:none; border-color: var(--accent); }
+  .calc-label { font-size:0.82rem; color:var(--text-muted); margin-top:12px; display:block; }
+  .calc-btn {
+    margin-top:16px; padding: 12px 24px; background: var(--accent);
+    color: var(--bg); font-weight:700; font-size:0.95rem; border:none;
+    border-radius: 10px; cursor:pointer; font-family:'Outfit',sans-serif;
+    transition: all 0.2s; width:100%;
+  }
+  .calc-btn:hover { background: #81d4fa; transform:translateY(-1px); }
+  .calc-result {
+    margin-top:14px; background: var(--bg2); border-radius:10px; padding:14px 16px;
+    border: 1px solid var(--accent4); display:none;
+    font-family:'Space Mono',monospace; font-size:0.9rem; color:var(--accent4);
+  }
+
+  /* QUIZ */
+  .quiz-q { margin-bottom:20px; }
+  .quiz-q .q-text { font-weight:600; margin-bottom:10px; font-size:0.95rem; }
+  .quiz-option {
+    display:block; width:100%; text-align:left; padding:10px 16px;
+    background: var(--card2); border:1px solid var(--border); border-radius:8px;
+    color:var(--text); cursor:pointer; font-family:'Outfit',sans-serif; font-size:0.88rem;
+    margin-bottom:6px; transition: all 0.2s;
+  }
+  .quiz-option:hover { border-color: var(--accent); }
+  .quiz-option.correct { background: rgba(6,214,160,0.15); border-color: var(--accent4); color: var(--accent4); }
+  .quiz-option.wrong { background: rgba(255,107,107,0.12); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-option:disabled { cursor:default; }
+  .quiz-explain { margin-top:8px; font-size:0.83rem; color:var(--text-muted); padding:8px 12px; background:var(--bg2); border-radius:6px; display:none; }
+  .quiz-score {
+    text-align:center; padding:24px; background:var(--card2); border-radius:14px;
+    display:none; margin-top:16px; border:1px solid var(--accent4);
+  }
+  .quiz-score h3 { font-size:1.6rem; color:var(--accent4); margin-bottom:8px; }
+  #quiz-restart { margin-top:14px; padding:10px 24px; background:var(--card); border:1px solid var(--accent); border-radius:8px; color:var(--accent); cursor:pointer; font-family:'Outfit',sans-serif; font-size:0.9rem; }
+
+  /* CHECKLIST */
+  .checklist-item {
+    display:flex; align-items:flex-start; gap:12px; padding:11px 14px;
+    background:var(--card2); border-radius:10px; margin-bottom:8px;
+    border:1px solid transparent; cursor:pointer; transition:all 0.2s;
+    user-select:none;
+  }
+  .checklist-item:hover { border-color: var(--border); }
+  .checklist-item.done { background: rgba(6,214,160,0.08); border-color: rgba(6,214,160,0.2); }
+  .checklist-item.done .cl-text { text-decoration:line-through; color:var(--text-muted); }
+  .cl-box {
+    width:20px; height:20px; border-radius:5px; border:2px solid var(--border);
+    flex-shrink:0; margin-top:1px; transition:all 0.2s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .checklist-item.done .cl-box { background:var(--accent4); border-color:var(--accent4); }
+  .cl-check { color:var(--bg); font-size:13px; display:none; }
+  .checklist-item.done .cl-check { display:block; }
+  .cl-text { font-size:0.9rem; line-height:1.5; }
+  .cl-tag {
+    font-size:0.7rem; padding:2px 8px; border-radius:99px; font-weight:600;
+    margin-left:auto; flex-shrink:0; white-space:nowrap; align-self:flex-start;
+  }
+  .cl-tag.must { background:rgba(255,107,107,0.2); color:var(--accent2); }
+  .cl-tag.good { background:rgba(255,209,102,0.15); color:var(--accent3); }
+  .cl-tag.nice { background:rgba(79,195,247,0.12); color:var(--accent); }
+
+  /* PLANET VISUALIZATION */
+  .solar-system-vis {
+    background: var(--bg2);
+    border-radius: 14px;
+    padding: 20px;
+    margin: 12px 0;
+    overflow-x: auto;
+  }
+  .planet-row {
+    display:flex; align-items:center; gap:12px; margin-bottom:10px;
+  }
+  .planet-name { width:70px; font-size:0.82rem; color:var(--text-muted); flex-shrink:0; }
+  .planet-bar-track { flex:1; height:8px; background:var(--bg); border-radius:99px; overflow:hidden; }
+  .planet-bar { height:100%; border-radius:99px; }
+  .planet-val { width:60px; font-family:'Space Mono',monospace; font-size:0.78rem; color:var(--accent3); text-align:right; }
+
+  /* ELLIPSE SVG */
+  .ellipse-demo { text-align:center; margin:16px 0; }
+  .ellipse-demo svg { max-width:100%; }
+
+  /* TITIUS TABLE highlight */
+  .titius-diff { color: var(--accent2); font-size:0.75rem; }
+
+  /* TAG */
+  .tag {
+    display:inline-block; padding:2px 10px; border-radius:99px; font-size:0.75rem;
+    font-weight:600; margin-right:6px; margin-bottom:4px;
+  }
+  .tag.blue { background:rgba(79,195,247,0.15); color:var(--accent); }
+  .tag.green { background:rgba(6,214,160,0.15); color:var(--accent4); }
+  .tag.yellow { background:rgba(255,209,102,0.15); color:var(--accent3); }
+  .tag.red { background:rgba(255,107,107,0.15); color:var(--accent2); }
+
+  /* KEPLER TOGGLE */
+  .kepler-card { cursor:pointer; }
+  .kepler-body { display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+  .kepler-card.open .kepler-body { display:block; }
+  .kepler-arrow { margin-left:auto; transition:transform 0.2s; color:var(--text-muted); font-size:1rem; }
+  .kepler-card.open .kepler-arrow { transform:rotate(180deg); }
+
+  /* FLASHCARDS */
+  .fc-controls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+  .fc-filter-btn {
+    padding:7px 14px; border-radius:8px; border:1px solid var(--border);
+    background:var(--card2); color:var(--text-muted); cursor:pointer;
+    font-family:'Outfit',sans-serif; font-size:0.82rem; font-weight:600; transition:all 0.2s;
+  }
+  .fc-filter-btn.active { background:var(--accent); color:var(--bg); border-color:var(--accent); }
+  .fc-counter { margin-left:auto; font-family:'Space Mono',monospace; font-size:0.85rem; color:var(--text-muted); }
+  .fc-stage {
+    perspective: 1200px;
+    margin: 0 auto 24px;
+    max-width: 600px;
+    height: 220px;
+  }
+  .fc-inner {
+    width:100%; height:100%;
+    position:relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer;
+  }
+  .fc-inner.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position:absolute; width:100%; height:100%;
+    border-radius:18px; padding:28px 32px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    text-align:center; backface-visibility:hidden;
+    border:1px solid var(--border);
+  }
+  .fc-front {
+    background: linear-gradient(135deg, var(--card), var(--card2));
+    border-color: rgba(79,195,247,0.25);
+  }
+  .fc-back {
+    background: linear-gradient(135deg, #0a1f10, #0d2218);
+    border-color: rgba(6,214,160,0.3);
+    transform: rotateY(180deg);
+  }
+  .fc-category {
+    font-size:0.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    color:var(--text-muted); margin-bottom:12px;
+  }
+  .fc-question { font-size:1.05rem; font-weight:600; color:var(--text); line-height:1.5; }
+  .fc-hint { font-size:0.78rem; color:var(--text-muted); margin-top:14px; }
+  .fc-answer { font-size:0.95rem; color:var(--accent4); line-height:1.6; }
+  .fc-answer strong { color:var(--accent3); }
+  .fc-nav { display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  .fc-nav-btn {
+    padding:10px 22px; border-radius:10px; border:1px solid var(--border);
+    background:var(--card2); color:var(--text); cursor:pointer;
+    font-family:'Outfit',sans-serif; font-size:0.9rem; font-weight:600; transition:all 0.2s;
+  }
+  .fc-nav-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .fc-nav-btn.good { border-color:var(--accent4); color:var(--accent4); }
+  .fc-nav-btn.bad { border-color:var(--accent2); color:var(--accent2); }
+  .fc-nav-btn:disabled { opacity:0.3; cursor:default; }
+  .fc-progress-row { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:16px; justify-content:center; }
+  .fc-dot {
+    width:10px; height:10px; border-radius:50%;
+    background:var(--card2); border:1px solid var(--border); transition:all 0.3s;
+  }
+  .fc-dot.seen { background:var(--accent); border-color:var(--accent); }
+  .fc-dot.known { background:var(--accent4); border-color:var(--accent4); }
+  .fc-dot.unknown { background:var(--accent2); border-color:var(--accent2); }
+  .fc-dot.current { transform:scale(1.4); box-shadow:0 0 6px var(--accent3); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="sun"></div>
+    <h1>🔭 Astronomie LK – Lernübersicht</h1>
+    <p>Klausur morgen · Viel Erfolg – du schaffst die 15 NP! 🚀</p>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-wrap">
+    <span class="progress-label">Checkliste Fortschritt:</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('sonnensystem')">🌍 Sonnensystem</button>
+    <button class="tab-btn" onclick="showTab('planetenbahnen')">🔵 Planetenbahnen</button>
+    <button class="tab-btn" onclick="showTab('titius')">📐 Titius-Bode</button>
+    <button class="tab-btn" onclick="showTab('rechnen1')">🧮 Rechnen I</button>
+    <button class="tab-btn" onclick="showTab('rechnen2')">📋 Formeln</button>
+    <button class="tab-btn" onclick="showTab('kepler')">🌀 Kepler-Gesetze</button>
+    <button class="tab-btn" onclick="showTab('quiz')">❓ Quiz</button>
+    <button class="tab-btn" onclick="showTab('checklist')">✅ Checkliste</button>
+    <button class="tab-btn" onclick="showTab('karteikarten')">🃏 Karteikarten</button>
+  </div>
+
+  <!-- ======================== TAB: SONNENSYSTEM ======================== -->
+  <div class="tab-content active" id="tab-sonnensystem">
+
+    <div class="card">
+      <h2>🌍 Planetentypen im Überblick</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Erdartige Planeten (innere)</h3>
+          <span class="tag blue">Merkur</span><span class="tag blue">Venus</span><span class="tag blue">Erde</span><span class="tag blue">Mars</span>
+          <ul style="margin-top:10px">
+            <li>Masse: 0,05 – 1 m<sub>E</sub></li>
+            <li>Radius: 0,4 – 1 R<sub>E</sub></li>
+            <li>Mittlere Dichte: <strong>3,9 – 5,5 g/cm³</strong></li>
+            <li>Klein, felsig, dicht</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Jupiterartige Planeten (äußere)</h3>
+          <span class="tag yellow">Jupiter</span><span class="tag yellow">Saturn</span><span class="tag yellow">Uranus</span><span class="tag yellow">Neptun</span>
+          <ul style="margin-top:10px">
+            <li>Masse: 17 – 317 m<sub>E</sub></li>
+            <li>Radius: 3,8 – 11,3 R<sub>E</sub></li>
+            <li>Mittlere Dichte: <strong>0,69 – 1,33 g/cm³</strong></li>
+            <li>Groß, gasförmig, leicht</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight yellow" style="margin-top:14px">
+        💡 <strong>Merkhilfe:</strong> Erdartige Planeten = dicht & klein (Fels). Jupiter-artige = riesig & leicht (Gas). Saturn wäre sogar auf Wasser schwimmfähig (Dichte < 1 g/cm³)!
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⚡ Bahngeschwindigkeiten der Planeten</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px">Je näher an der Sonne → desto schneller (Kepler 2)</p>
+      <div class="solar-system-vis">
+        <div class="planet-row"><span class="planet-name">Merkur</span><div class="planet-bar-track"><div class="planet-bar" style="width:100%;background:linear-gradient(90deg,#ff8a65,#ffcc02)"></div></div><span class="planet-val">47,90 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Venus</span><div class="planet-bar-track"><div class="planet-bar" style="width:73%;background:linear-gradient(90deg,#ffd54f,#fff176)"></div></div><span class="planet-val">35,04 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Erde</span><div class="planet-bar-track"><div class="planet-bar" style="width:62%;background:linear-gradient(90deg,#4fc3f7,#81d4fa)"></div></div><span class="planet-val">29,79 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Mars</span><div class="planet-bar-track"><div class="planet-bar" style="width:50%;background:linear-gradient(90deg,#ef9a9a,#ff7043)"></div></div><span class="planet-val">24,14 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Jupiter</span><div class="planet-bar-track"><div class="planet-bar" style="width:27%;background:linear-gradient(90deg,#ce93d8,#b39ddb)"></div></div><span class="planet-val">13,07 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Saturn</span><div class="planet-bar-track"><div class="planet-bar" style="width:20%;background:linear-gradient(90deg,#a5d6a7,#c8e6c9)"></div></div><span class="planet-val">9,65 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Uranus</span><div class="planet-bar-track"><div class="planet-bar" style="width:14%;background:linear-gradient(90deg,#80deea,#b2ebf2)"></div></div><span class="planet-val">6,81 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Neptun</span><div class="planet-bar-track"><div class="planet-bar" style="width:11%;background:linear-gradient(90deg,#5c6bc0,#7986cb)"></div></div><span class="planet-val">5,44 km/s</span></div>
+        <div class="planet-row"><span class="planet-name">Pluto</span><div class="planet-bar-track"><div class="planet-bar" style="width:10%;background:linear-gradient(90deg,#78909c,#90a4ae)"></div></div><span class="planet-val">4,73 km/s</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📏 Abstände & scheinbare Durchmesser</h2>
+      <table class="data-table">
+        <tr><th>Planet</th><th>Min. Abstand (Mio. km)</th><th>Max. Abstand (Mio. km)</th><th>Scheinb. Ø (Bogensek.)</th></tr>
+        <tr><td>Merkur</td><td>72</td><td>82</td><td>5 – 15</td></tr>
+        <tr><td>Venus</td><td>41</td><td>257</td><td>10 – 60</td></tr>
+        <tr><td>Mars</td><td>55</td><td>400</td><td>3 – 25</td></tr>
+        <tr><td>Jupiter</td><td>588</td><td>967</td><td>30 – 50</td></tr>
+        <tr><td>Saturn</td><td>1180</td><td>1650</td><td>15 – 20</td></tr>
+        <tr class="highlight-row"><td>Uranus</td><td>2587</td><td>3149</td><td>∅ 3,6''</td></tr>
+        <tr class="highlight-row"><td>Neptun</td><td>4260</td><td>4640</td><td>∅ 1,5''</td></tr>
+      </table>
+      <div class="highlight">
+        💡 Venus hat den <strong>größten scheinbaren Durchmesser</strong> (bis 60''), obwohl sie nicht der größte Planet ist – weil sie der Erde am nächsten kommen kann (41 Mio. km)!
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🌀 Geozentrische Bewegungen / Planetenschleifen</h2>
+      <p><strong>Ursache:</strong> Die Erde überholt auf ihrer Innenbahn die äußeren Planeten (Mars, Jupiter etc.), da sie eine höhere Bahngeschwindigkeit hat.</p>
+      <div class="highlight" style="margin-top:12px">
+        <strong>Sichtbarkeit:</strong><br>
+        • <strong>Obere Planeten</strong> (außerhalb Erde): Beste Sichtbarkeit bei <strong>Opposition</strong> (Planet, Erde, Sonne in einer Linie – Planet der Sonne gegenüber) → minimaler Abstand, ganze Nacht sichtbar<br>
+        • <strong>Untere Planeten</strong> (Mercury, Venus): Sichtbar bei <strong>größter Elongation</strong>, nie in Mitternacht sichtbar
+      </div>
+      <h3>Konjunktion vs. Opposition</h3>
+      <table class="data-table">
+        <tr><th>Begriff</th><th>Bedeutung</th><th>Sichtbarkeit</th></tr>
+        <tr><td>Konjunktion</td><td>Sonne zwischen Erde & Planet (oder Planet hinter Sonne)</td><td>❌ Nicht sichtbar</td></tr>
+        <tr><td>Opposition</td><td>Erde zwischen Sonne & Planet</td><td>✅ Beste Sichtbarkeit</td></tr>
+        <tr><td>Größte Elongation</td><td>Max. Winkelabstand von der Sonne (nur inn. Planeten)</td><td>✅ Gut sichtbar</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: PLANETENBAHNEN ======================== -->
+  <div class="tab-content" id="tab-planetenbahnen">
+
+    <div class="card">
+      <h2>🔵 Ellipsen – Grundbegriffe</h2>
+      <div class="ellipse-demo">
+        <svg viewBox="0 0 500 260" width="500" height="260" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="260" fill="transparent"/>
+          <!-- ellipse -->
+          <ellipse cx="250" cy="130" rx="200" ry="100" fill="none" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="6,3"/>
+          <!-- semi-major axis a -->
+          <line x1="50" y1="130" x2="450" y2="130" stroke="#7a90b8" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- semi-minor axis b -->
+          <line x1="250" y1="30" x2="250" y2="230" stroke="#7a90b8" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- foci -->
+          <circle cx="160" cy="130" r="6" fill="#ffcc00"/>
+          <text x="148" y="150" fill="#ffcc00" font-size="13" font-family="Space Mono">F₁</text>
+          <circle cx="340" cy="130" r="6" fill="#ffcc00"/>
+          <text x="345" y="150" fill="#ffcc00" font-size="13" font-family="Space Mono">F₂</text>
+          <!-- center -->
+          <circle cx="250" cy="130" r="3" fill="#7a90b8"/>
+          <text x="255" y="148" fill="#7a90b8" font-size="12" font-family="Space Mono">M</text>
+          <!-- sun -->
+          <circle cx="160" cy="130" r="12" fill="none" stroke="#ff8800" stroke-width="2"/>
+          <text x="125" y="108" fill="#ff8800" font-size="11" font-family="Outfit">Sonne</text>
+          <!-- point P on ellipse -->
+          <circle cx="370" cy="65" r="5" fill="#06d6a0"/>
+          <text x="375" y="62" fill="#06d6a0" font-size="12" font-family="Space Mono">P</text>
+          <line x1="160" y1="130" x2="370" y2="65" stroke="#ff6b6b" stroke-width="1.5"/>
+          <line x1="340" y1="130" x2="370" y2="65" stroke="#ff6b6b" stroke-width="1.5"/>
+          <!-- r1 label -->
+          <text x="245" y="88" fill="#ff6b6b" font-size="11" font-family="Space Mono">r₁</text>
+          <text x="365" y="102" fill="#ff6b6b" font-size="11" font-family="Space Mono">r₂</text>
+          <!-- a label -->
+          <text x="240" y="125" fill="#4fc3f7" font-size="11" font-family="Space Mono">a</text>
+          <line x1="250" y1="130" x2="450" y2="130" stroke="#4fc3f7" stroke-width="2"/>
+          <text x="440" y="120" fill="#4fc3f7" font-size="11" font-family="Space Mono">a</text>
+          <!-- b label -->
+          <line x1="250" y1="30" x2="250" y2="130" stroke="#06d6a0" stroke-width="2"/>
+          <text x="255" y="80" fill="#06d6a0" font-size="11" font-family="Space Mono">b</text>
+          <!-- e label -->
+          <line x1="250" y1="148" x2="160" y2="148" stroke="#ffd166" stroke-width="2"/>
+          <text x="193" y="163" fill="#ffd166" font-size="11" font-family="Space Mono">e</text>
+          <!-- Perihel Aphel -->
+          <circle cx="50" cy="130" r="4" fill="#ff6b6b"/>
+          <text x="28" y="118" fill="#ff6b6b" font-size="10" font-family="Outfit">Perihel</text>
+          <circle cx="450" cy="130" r="4" fill="#06d6a0"/>
+          <text x="432" y="118" fill="#06d6a0" font-size="10" font-family="Outfit">Aphel</text>
+          <!-- equation -->
+          <text x="15" y="250" fill="#4fc3f7" font-size="12" font-family="Space Mono">r₁ + r₂ = 2a = const.</text>
+        </svg>
+      </div>
+      <div class="grid-2">
+        <div>
+          <h3>Wichtige Größen</h3>
+          <ul>
+            <li><strong style="color:var(--accent)">a</strong> = große Halbachse</li>
+            <li><strong style="color:var(--accent4)">b</strong> = kleine Halbachse</li>
+            <li><strong style="color:var(--accent3)">e</strong> = lineare Exzentrizität (Abstand Mittelpunkt–Brennpunkt)</li>
+            <li><strong style="color:var(--accent2)">ε</strong> = numerische Exzentrizität = e/a</li>
+            <li><strong>Perihel</strong> = sonnennächster Punkt</li>
+            <li><strong>Aphel</strong> = sonnenfernster Punkt</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Formeln</h3>
+          <div class="formula"><div class="formula-name">Zusammenhang a, b, e</div><div class="formula-math">a² = b² + e²</div></div>
+          <div class="formula"><div class="formula-name">Numerische Exzentrizität</div><div class="formula-math">ε = e / a</div></div>
+          <div class="formula"><div class="formula-name">Perihel / Aphel</div><div class="formula-math">r_P = a − e &nbsp;|&nbsp; r_A = a + e</div></div>
+        </div>
+      </div>
+      <div class="highlight yellow">
+        💡 <strong>ε = 0</strong> → perfekter Kreis. <strong>ε → 1</strong> → sehr gestreckte Ellipse. Planetenbahnen sind fast kreisförmig (kleine ε)!
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📊 Bahnformen – Exzentrizitäten</h2>
+      <table class="data-table">
+        <tr><th>Planet</th><th>ε (Exzentrizität)</th><th>Perihel (AE)</th><th>Aphel (AE)</th><th>Mittl. Abstand (AE)</th></tr>
+        <tr><td>Merkur</td><td>0,2056</td><td>0,307</td><td>0,466</td><td>0,387</td></tr>
+        <tr><td>Erde</td><td>0,0167</td><td>0,983</td><td>1,02</td><td>1,00</td></tr>
+        <tr><td>Mars</td><td>0,0934</td><td>1,38</td><td>1,67</td><td>1,524</td></tr>
+        <tr><td>Jupiter</td><td>0,0485</td><td>4,95</td><td>5,45</td><td>5,2</td></tr>
+        <tr><td>Saturn</td><td>0,0556</td><td>9,0</td><td>10,1</td><td>9,54</td></tr>
+        <tr class="highlight-row"><td>Pluto ★</td><td><strong>0,2522</strong></td><td>29,8</td><td>49,3</td><td>39,7</td></tr>
+      </table>
+      <div class="highlight red">
+        ⭐ <strong>Klausur-Wissen:</strong> Pluto hat die <strong>größte Exzentrizität</strong> (0,2522) aller Planeten/Zwergplaneten im Sonnensystem. Merkur hat unter den Planeten die höchste (0,2056).
+      </div>
+      <div class="highlight">
+        📐 <strong>Mars-Aufgabe aus dem AB:</strong> Differenz a − b bei Mars?<br>
+        a = 1,524 AE, ε = 0,0934 → e = ε·a = 0,142 AE → b = √(a²−e²) = √(2,322−0,020) ≈ <strong>1,517 AE</strong><br>
+        Differenz: 1,524 − 1,517 ≈ <strong>0,007 AE</strong> → fast kein Unterschied!
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🌐 Neigungen</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Neigung der Planetenbahnen zur Ekliptik</h3>
+          <table class="data-table">
+            <tr><th>Planet</th><th>Neigung</th></tr>
+            <tr><td>Mars</td><td>1,8°</td></tr>
+            <tr><td>Venus</td><td>3,4°</td></tr>
+            <tr><td>Merkur</td><td>7,0°</td></tr>
+            <tr class="highlight-row"><td>Pluto</td><td><strong>17,1°</strong> (größte!)</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Neigung Äquator zur Bahnebene</h3>
+          <table class="data-table">
+            <tr><th>Planet</th><th>Neigung</th></tr>
+            <tr><td>Erde</td><td>23° 27' → Jahreszeiten!</td></tr>
+            <tr><td>Mars</td><td>25° 12'</td></tr>
+            <tr><td>Jupiter</td><td>3° 7'</td></tr>
+            <tr><td>Saturn</td><td>26° 45'</td></tr>
+            <tr class="highlight-row"><td>Uranus</td><td><strong>97° 59'</strong> → "kippt auf Seite"!</td></tr>
+            <tr><td>Neptun</td><td>29°</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="highlight red">
+        ⭐ <strong>Uranus</strong> hat mit fast 98° die extremste Achsneigung – er "rollt" quasi um die Sonne!
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: TITIUS-BODE ======================== -->
+  <div class="tab-content" id="tab-titius">
+    <div class="card">
+      <h2>📐 Titius-Bodesche Reihe</h2>
+      <p>Empirische Formel zur Abschätzung der Planetenabstände. Von J.P. Titius und J.E. Bode (18. Jhd.)</p>
+      <div class="formula" style="margin-top:16px">
+        <div class="formula-name">Berechnungsformel</div>
+        <div class="formula-math">a = 0,4 + 0,3 · 2ⁿ &nbsp;&nbsp;[AE]</div>
+        <div class="formula-note">Merkur: n = −∞ (ergibt 0,4) | Venus: n=0 | Erde: n=1 | Mars: n=2 | ...</div>
+      </div>
+      <table class="data-table" style="margin-top:16px">
+        <tr><th>Planet</th><th>n</th><th>Berechnet (AE)</th><th>Beobachtet (AE)</th><th>Abweichung</th></tr>
+        <tr><td>Merkur</td><td>-∞</td><td>0,4</td><td>0,39</td><td style="color:var(--accent4)">✅ gut</td></tr>
+        <tr><td>Venus</td><td>0</td><td>0,7</td><td>0,72</td><td style="color:var(--accent4)">✅ gut</td></tr>
+        <tr><td>Erde</td><td>1</td><td>1,0</td><td>1,0</td><td style="color:var(--accent4)">✅ perfekt</td></tr>
+        <tr><td>Mars</td><td>2</td><td>1,6</td><td>1,52</td><td style="color:var(--accent4)">✅ gut</td></tr>
+        <tr class="highlight-row"><td>Planetoiden</td><td>3</td><td>2,8</td><td>2,9</td><td style="color:var(--accent4)">✅ Asteroiden!</td></tr>
+        <tr><td>Jupiter</td><td>4</td><td>5,2</td><td>5,2</td><td style="color:var(--accent4)">✅ perfekt</td></tr>
+        <tr><td>Saturn</td><td>5</td><td>10,0</td><td>9,54</td><td style="color:var(--accent4)">✅ gut</td></tr>
+        <tr><td>Uranus</td><td>6</td><td>19,6</td><td>19,18</td><td style="color:var(--accent4)">✅ gut</td></tr>
+        <tr class="highlight-row"><td>Neptun</td><td>7</td><td>38,8</td><td>30,44</td><td style="color:var(--accent2)">❌ große Abweichung!</td></tr>
+      </table>
+      <div class="highlight red">
+        ⭐ <strong>Wichtig:</strong> Die Reihe <strong>versagt bei Neptun</strong> (38,8 vs. 30,44 AE – fast 30% Fehler!). Bei n=3 wurde eine Lücke vorhergesagt → führte zur Entdeckung des <strong>Asteroidengürtels</strong>!
+      </div>
+      <div class="highlight yellow">
+        💡 <strong>Historische Bedeutung:</strong> Als Uranus 1781 entdeckt wurde, passte er perfekt (19,18 AE ≈ 19,6 AE). Das galt als riesige Bestätigung der Reihe. Erst Neptun zeigte die Grenzen.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📈 3. Keplersches Gesetz – log. Diagramm</h2>
+      <p style="margin-bottom:12px">Das Diagramm aus dem AB zeigt Umlaufzeit T (Jahre) gegen Abstand a (AE) in <strong>doppelt logarithmischer Skala</strong>. Alle Punkte liegen auf einer Geraden!</p>
+      <div class="highlight">
+        <strong>Steigung der Geraden = 3/2</strong><br>
+        Das bedeutet: log T = (3/2) · log a<br>
+        → Umgekehrt: T² ~ a³ (3. Keplersches Gesetz)
+      </div>
+      <div class="formula">
+        <div class="formula-name">3. Keplersches Gesetz</div>
+        <div class="formula-math">T² / a³ = const. &nbsp;&nbsp;oder&nbsp;&nbsp; (T₁/T₂)² = (a₁/a₂)³</div>
+        <div class="formula-note">T = Umlaufzeit [Jahre], a = große Halbachse [AE]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: RECHNEN I ======================== -->
+  <div class="tab-content" id="tab-rechnen1">
+    <div class="card">
+      <h2>🧮 Rechenpart I: Wahrscheinliche Klausuraufgaben</h2>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:16px">Basierend auf dem Unterrichtsstoff sind das die wahrscheinlichsten Aufgabentypen:</p>
+
+      <h3>1. Exzentrizität berechnen</h3>
+      <div class="highlight">
+        <strong>Gegeben:</strong> Perihel r_P und Aphel r_A eines Planeten<br>
+        <strong>Gesucht:</strong> numerische Exzentrizität ε
+      </div>
+      <div class="formula">
+        <div class="formula-name">Schritt-für-Schritt</div>
+        <div class="formula-math">a = (r_P + r_A) / 2 &nbsp;&nbsp;&nbsp; e = a − r_P &nbsp;&nbsp;&nbsp; ε = e / a</div>
+      </div>
+      <div class="highlight yellow">
+        <strong>Beispielrechnung – Mars:</strong><br>
+        r_P = 1,381 AE, r_A = 1,666 AE<br>
+        → a = (1,381 + 1,666)/2 = <strong>1,524 AE</strong><br>
+        → e = 1,524 − 1,381 = <strong>0,143 AE</strong><br>
+        → ε = 0,143 / 1,524 = <strong>0,0934</strong> ✅
+      </div>
+      <div style="margin-top:20px; background:var(--bg2); border-radius:12px; padding:18px; border:1px solid var(--border)">
+        <h3 style="margin-top:0; color:var(--accent4)">🧮 Interaktiver Rechner</h3>
+        <label class="calc-label">Perihel r_P (in AE oder km)</label>
+        <input class="calc-input" id="r_p" type="number" placeholder="z.B. 1.381" step="any">
+        <label class="calc-label">Aphel r_A (in AE oder km)</label>
+        <input class="calc-input" id="r_a" type="number" placeholder="z.B. 1.666" step="any">
+        <button class="calc-btn" onclick="calcEcc()">Exzentrizität berechnen</button>
+        <div class="calc-result" id="ecc-result"></div>
+      </div>
+
+      <h3 style="margin-top:24px">2. Umlaufzeit mit 3. Keplerschem Gesetz</h3>
+      <div class="highlight">
+        Mit dem Tafelwerk findest du: T_Erde = 1 Jahr, a_Erde = 1 AE → für jeden anderen Planeten folgt:
+      </div>
+      <div class="formula">
+        <div class="formula-math">T = a^(3/2) &nbsp;&nbsp;[wenn a in AE, T in Jahren]</div>
+      </div>
+      <div class="highlight yellow">
+        <strong>Beispiel – Mars:</strong> a = 1,524 AE → T = 1,524^1,5 = <strong>1,88 Jahre</strong> ✅
+      </div>
+      <div style="margin-top:16px; background:var(--bg2); border-radius:12px; padding:18px; border:1px solid var(--border)">
+        <h3 style="margin-top:0; color:var(--accent4)">🧮 Kepler-Rechner</h3>
+        <label class="calc-label">Große Halbachse a (in AE)</label>
+        <input class="calc-input" id="kepler_a" type="number" placeholder="z.B. 5.2 für Jupiter" step="any">
+        <button class="calc-btn" onclick="calcKepler()">Umlaufzeit berechnen</button>
+        <div class="calc-result" id="kepler-result"></div>
+      </div>
+
+      <h3 style="margin-top:24px">3. Titius-Bode: Abstand berechnen</h3>
+      <div class="highlight">
+        Gegeben: Planet-Index n → Abstand in AE ausrechnen
+      </div>
+      <div class="formula">
+        <div class="formula-math">a = 0,4 + 0,3 · 2ⁿ</div>
+      </div>
+      <div style="background:var(--bg2); border-radius:12px; padding:18px; border:1px solid var(--border); margin-top:12px">
+        <label class="calc-label">Index n (z.B. 0 für Venus, 1 für Erde, 2 für Mars...)</label>
+        <input class="calc-input" id="titius_n" type="number" placeholder="z.B. 4 für Jupiter" step="1">
+        <button class="calc-btn" onclick="calcTitius()">Abstand berechnen</button>
+        <div class="calc-result" id="titius-result"></div>
+      </div>
+
+      <h3 style="margin-top:24px">4. Tafelwerk-Hinweise</h3>
+      <div class="highlight">
+        📚 <strong>Was du im Tafelwerk brauchst:</strong><br>
+        • AE (Astronomische Einheit) = 1,496 × 10⁸ km = 149,6 Mio. km<br>
+        • Lichtjahr = 9,461 × 10¹² km<br>
+        • Parsec = 3,086 × 10¹³ km<br>
+        • Gravitationskonstante G = 6,674 × 10⁻¹¹ N·m²/kg²<br>
+        • Masse Sonne: M_☉ = 1,989 × 10³⁰ kg
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: FORMELN ======================== -->
+  <div class="tab-content" id="tab-rechnen2">
+    <div class="card">
+      <h2>📋 Formelsammlung – Alle wichtigen Formeln</h2>
+
+      <h3>Ellipsen-Geometrie</h3>
+      <div class="grid-2">
+        <div class="formula"><div class="formula-name">Pythagoras der Ellipse</div><div class="formula-math">a² = b² + e²</div><div class="formula-note">a=große HA, b=kleine HA, e=lin. Exz.</div></div>
+        <div class="formula"><div class="formula-name">Numerische Exzentrizität</div><div class="formula-math">ε = e / a</div><div class="formula-note">0 = Kreis, 1 = Parabel</div></div>
+        <div class="formula"><div class="formula-name">Perihel & Aphel</div><div class="formula-math">r_P = a − e &nbsp;|&nbsp; r_A = a + e</div></div>
+        <div class="formula"><div class="formula-name">Große Halbachse aus P+A</div><div class="formula-math">a = (r_P + r_A) / 2</div></div>
+      </div>
+
+      <h3 style="margin-top:20px">Kepler'sche Gesetze</h3>
+      <div class="formula"><div class="formula-name">1. Gesetz – Ellipsenbahn</div><div class="formula-math">Planetenbahnen sind Ellipsen; die Sonne steht in einem Brennpunkt</div></div>
+      <div class="formula"><div class="formula-name">2. Gesetz – Flächensatz</div><div class="formula-math">Der Fahrstrahl überstreicht in gleichen Zeiten gleiche Flächen</div><div class="formula-note">→ Beim Perihel schnell, beim Aphel langsam</div></div>
+      <div class="formula"><div class="formula-name">3. Gesetz – Harmonisches Gesetz</div><div class="formula-math">T² / a³ = const. &nbsp;&nbsp;→ T₁²/T₂² = a₁³/a₂³</div><div class="formula-note">Vereinfacht (Bezug Erde): T [Jahre] = a^1,5 [AE]</div></div>
+
+      <h3 style="margin-top:20px">Titius-Bode</h3>
+      <div class="formula"><div class="formula-name">Titius-Bodesche Reihe</div><div class="formula-math">a = 0,4 + 0,3 · 2ⁿ &nbsp;[AE]</div><div class="formula-note">Merkur: n→−∞ (a≈0,4) | Venus: n=0 | Erde: n=1 | …</div></div>
+
+      <h3 style="margin-top:20px">Winkel & Scheinbarer Durchmesser</h3>
+      <div class="formula"><div class="formula-name">Scheinbarer Winkeldurchmesser δ</div><div class="formula-math">tan(δ/2) = r / d &nbsp;&nbsp;→ δ ≈ 2r/d &nbsp;[rad]</div><div class="formula-note">r = physischer Radius, d = Abstand. Bei kleinen Winkeln: δ['']=206265·(2r/d)</div></div>
+
+      <h3 style="margin-top:20px">Umrechnungen</h3>
+      <div class="grid-2">
+        <div class="formula"><div class="formula-name">1 AE in km</div><div class="formula-math">1 AE = 1,496 · 10⁸ km</div></div>
+        <div class="formula"><div class="formula-name">Bogensekunden → Radiant</div><div class="formula-math">1'' = 1/206265 rad</div></div>
+      </div>
+
+      <div class="highlight" style="margin-top:16px">
+        🔑 <strong>Prüfungs-Trick:</strong> Bei Kepler 3 immer prüfen, ob die Einheiten stimmen! Wenn a in AE und T in Jahren → Konstante = 1, kein Tafelwerk nötig. Wenn SI-Einheiten (m, s) → dann brauchst du G und M_Sonne.
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: KEPLER ======================== -->
+  <div class="tab-content" id="tab-kepler">
+    <div class="card">
+      <h2>🌀 Die drei Keplerschen Gesetze</h2>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:16px">Johann Kepler (1571–1630) · Basierend auf Tycho Brahes Beobachtungen</p>
+      <p style="font-size:0.88rem">Da das in der letzten Arbeit dran war, nur kurz zum Nachschlagen – zum sicheren Verständnis!</p>
+    </div>
+
+    <div class="card kepler-card" onclick="toggleKepler(this)">
+      <h2>1. Gesetz – Ellipsenbahnen <span class="kepler-arrow">▼</span></h2>
+      <p style="font-size:0.9rem; color:var(--text-muted)">Klicken zum Aufklappen</p>
+      <div class="kepler-body">
+        <div class="formula"><div class="formula-math">Jeder Planet bewegt sich auf einer Ellipse, in deren einem Brennpunkt die Sonne steht.</div></div>
+        <div class="highlight">
+          <strong>Bedeutung:</strong> Die Planetenbahnen sind keine Kreise (wie Ptolemäus dachte), sondern Ellipsen – wenn auch sehr kreisähnliche. Der Mittelpunkt der Sonne liegt nicht im Zentrum, sondern leicht versetzt (im Brennpunkt).
+        </div>
+      </div>
+    </div>
+
+    <div class="card kepler-card" onclick="toggleKepler(this)">
+      <h2>2. Gesetz – Flächensatz <span class="kepler-arrow">▼</span></h2>
+      <p style="font-size:0.9rem; color:var(--text-muted)">Klicken zum Aufklappen</p>
+      <div class="kepler-body">
+        <div class="formula"><div class="formula-math">Der Fahrstrahl Planet→Sonne überstreicht in gleichen Zeiten gleiche Flächen.</div></div>
+        <div class="highlight">
+          <strong>Konsequenz:</strong> Im Perihel (sonnennah) bewegt sich der Planet <strong>schnell</strong>, im Aphel (sonnenfern) bewegt er sich <strong>langsam</strong>. Das erklärt warum Merkur (47,9 km/s) so viel schneller ist als Neptun (5,4 km/s)!
+        </div>
+        <div class="highlight yellow">
+          <strong>Zusammenhang mit Bahngeschwindigkeit:</strong> v_P · r_P = v_A · r_A (Drehimpulserhaltung)
+        </div>
+      </div>
+    </div>
+
+    <div class="card kepler-card" onclick="toggleKepler(this)">
+      <h2>3. Gesetz – Harmonisches Gesetz <span class="kepler-arrow">▼</span></h2>
+      <p style="font-size:0.9rem; color:var(--text-muted)">Klicken zum Aufklappen</p>
+      <div class="kepler-body">
+        <div class="formula"><div class="formula-math">T₁² / T₂² = a₁³ / a₂³ &nbsp;&nbsp;&nbsp; oder &nbsp;&nbsp;&nbsp; T² ∝ a³</div></div>
+        <div class="highlight">
+          <strong>Bedeutung:</strong> Das Quadrat der Umlaufzeit verhält sich wie die dritte Potenz der großen Halbachse. Bezogen auf die Erde (T=1 Jahr, a=1 AE): <strong>T [Jahre] = a^1,5 [AE]</strong>
+        </div>
+        <div class="highlight yellow">
+          <strong>Beispiele:</strong><br>
+          Mars: a = 1,524 AE → T = 1,524^1,5 ≈ 1,88 Jahre ✅<br>
+          Jupiter: a = 5,2 AE → T = 5,2^1,5 ≈ 11,86 Jahre ✅
+        </div>
+        <div class="highlight red">
+          🔑 Das log-log Diagramm auf dem AB zeigt eine Gerade mit Steigung 3/2 – das ist genau dieses Gesetz!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: QUIZ ======================== -->
+  <div class="tab-content" id="tab-quiz">
+    <div class="card">
+      <h2>❓ Quiz – Astronomie LK</h2>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px">Mittelschweres Quiz · Klick auf eine Antwort!</p>
+
+      <div id="quiz-container">
+        <!-- questions injected by JS -->
+      </div>
+      <div class="quiz-score" id="quiz-score">
+        <h3 id="score-text"></h3>
+        <p id="score-msg"></p>
+        <button id="quiz-restart" onclick="initQuiz()">🔄 Nochmal versuchen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: CHECKLISTE ======================== -->
+  <div class="tab-content" id="tab-checklist">
+    <div class="card">
+      <h2>✅ Lerncheckliste – Astronomie LK</h2>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:16px">Klicke auf einen Punkt zum Abhaken · Fortschritt wird oben angezeigt</p>
+
+      <h3>🔴 Unbedingt wissen (wahrscheinliche Klausurthemen)</h3>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Erdartige vs. Jupiterartige Planeten: Masse, Radius, Dichte-Bereiche kennen</span>
+        <span class="cl-tag must">Muss</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Exzentrizität berechnen: aus Perihel & Aphel → a, e, ε bestimmen</span>
+        <span class="cl-tag must">Muss</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Ellipsen-Grundbegriffe: a, b, e, ε, Perihel, Aphel erklären können</span>
+        <span class="cl-tag must">Muss</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Titius-Bode Formel: a = 0,4 + 0,3·2ⁿ anwenden; wissen dass Neptun abweicht</span>
+        <span class="cl-tag must">Muss</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Planetenschleifen / Opposition / Konjunktion erklären</span>
+        <span class="cl-tag must">Muss</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Pluto hat größte Exzentrizität (0,25), Uranus extremste Achsneigung (98°)</span>
+        <span class="cl-tag must">Muss</span>
+      </div>
+
+      <h3 style="margin-top:16px">🟡 Gut wissen</h3>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">3. Keplersches Gesetz: T² ~ a³ anwenden (Umlaufzeit aus Abstand berechnen)</span>
+        <span class="cl-tag good">Gut</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Bahngeschwindigkeiten: Merkur schnellster (47,9 km/s), Neptun langsamster (5,4 km/s)</span>
+        <span class="cl-tag good">Gut</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Formel a² = b² + e² und Zusammenhang aller Ellipsen-Größen</span>
+        <span class="cl-tag good">Gut</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Neigung Planetenbahnen zur Ekliptik: Pluto größte (17,1°)</span>
+        <span class="cl-tag good">Gut</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Titius-Bode: Versagen bei Neptun; Asteroidengürtel bei n=3 vorhergesagt</span>
+        <span class="cl-tag good">Gut</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Abstände der Planeten von der Erde: minimale & maximale Werte grob wissen</span>
+        <span class="cl-tag good">Gut</span>
+      </div>
+
+      <h3 style="margin-top:16px">🔵 Bonus / Verständnis</h3>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Alle 3 Keplerschen Gesetze mit eigenen Worten erklären können</span>
+        <span class="cl-tag nice">Bonus</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Log-log-Diagramm (AB): Steigung 3/2 = 3. Keplersches Gesetz verstehen</span>
+        <span class="cl-tag nice">Bonus</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Mars: Differenz a − b ≈ 0,007 AE (fast kreisförmig!) verstehen</span>
+        <span class="cl-tag nice">Bonus</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Venus hat größten scheinbaren Durchmesser obwohl nicht größter Planet (minimaler Abstand zur Erde!)</span>
+        <span class="cl-tag nice">Bonus</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <span class="cl-text">Scheinbaren Winkeldurchmesser berechnen: δ ≈ 2r/d · 206265 [in Bogensekunden]</span>
+        <span class="cl-tag nice">Bonus</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== TAB: KARTEIKARTEN ======================== -->
+  <div class="tab-content" id="tab-karteikarten">
+    <div class="card">
+      <h2>🃏 Karteikarten</h2>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:16px">Klick auf die Karte zum Umdrehen · Dann bewerten ob du es wusstest</p>
+
+      <div class="fc-controls">
+        <button class="fc-filter-btn active" onclick="setFilter('all',this)">Alle</button>
+        <button class="fc-filter-btn" onclick="setFilter('Definitionen',this)">Definitionen</button>
+        <button class="fc-filter-btn" onclick="setFilter('Formeln',this)">Formeln</button>
+        <button class="fc-filter-btn" onclick="setFilter('Fakten',this)">Fakten</button>
+        <button class="fc-filter-btn" onclick="setFilter('unknown',this)">❌ Nochmal</button>
+        <span class="fc-counter" id="fc-counter">1 / 20</span>
+      </div>
+
+      <div class="fc-progress-row" id="fc-dots"></div>
+
+      <div class="fc-stage">
+        <div class="fc-inner" id="fc-inner" onclick="flipCard()">
+          <div class="fc-face fc-front">
+            <div class="fc-category" id="fc-cat"></div>
+            <div class="fc-question" id="fc-q"></div>
+            <div class="fc-hint">👆 Klicken zum Umdrehen</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-category" id="fc-cat-back" style="color:var(--accent4)"></div>
+            <div class="fc-answer" id="fc-a"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc-nav">
+        <button class="fc-nav-btn" id="fc-prev" onclick="fcNav(-1)">◀ Zurück</button>
+        <button class="fc-nav-btn bad" onclick="fcMark('unknown')">❌ Nochmal</button>
+        <button class="fc-nav-btn good" onclick="fcMark('known')">✅ Gewusst</button>
+        <button class="fc-nav-btn" id="fc-next" onclick="fcNav(1)">Weiter ▶</button>
+      </div>
+
+      <div style="margin-top:20px; text-align:center;">
+        <button onclick="shuffleCards()" style="padding:8px 18px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:var(--text-muted); cursor:pointer; font-family:'Outfit',sans-serif; font-size:0.85rem;">🔀 Mischen</button>
+        <button onclick="resetCards()" style="margin-left:8px; padding:8px 18px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:var(--text-muted); cursor:pointer; font-family:'Outfit',sans-serif; font-size:0.85rem;">🔄 Zurücksetzen</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// TAB SYSTEM
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// KEPLER TOGGLE
+function toggleKepler(el) {
+  el.classList.toggle('open');
+}
+
+// CHECKLIST
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  updateProgress();
+}
+function updateProgress() {
+  const all = document.querySelectorAll('.checklist-item').length;
+  const done = document.querySelectorAll('.checklist-item.done').length;
+  const pct = Math.round(done/all*100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+// CALCULATORS
+function calcEcc() {
+  const rp = parseFloat(document.getElementById('r_p').value);
+  const ra = parseFloat(document.getElementById('r_a').value);
+  const res = document.getElementById('ecc-result');
+  if(isNaN(rp)||isNaN(ra)||rp<=0||ra<=0||ra<rp) {
+    res.style.display='block'; res.style.color='var(--accent2)';
+    res.textContent = '⚠️ Bitte gültige Werte eingeben (r_A ≥ r_P > 0)'; return;
+  }
+  const a = (rp+ra)/2, e = a-rp, eps = e/a;
+  const b = Math.sqrt(a*a-e*e);
+  res.style.display='block'; res.style.color='var(--accent4)';
+  res.innerHTML = `✅ Große Halbachse:  a = ${a.toFixed(4)}\n` +
+    `Lin. Exzentrizität: e = ${e.toFixed(4)}\n` +
+    `Num. Exzentrizität: ε = ${eps.toFixed(4)}\n` +
+    `Kleine Halbachse:   b = ${b.toFixed(4)}\n` +
+    `Differenz a−b:       ${(a-b).toFixed(6)}`;
+}
+function calcKepler() {
+  const a = parseFloat(document.getElementById('kepler_a').value);
+  const res = document.getElementById('kepler-result');
+  if(isNaN(a)||a<=0){res.style.display='block';res.style.color='var(--accent2)';res.textContent='⚠️ Gültigen Wert eingeben';return;}
+  const T = Math.pow(a, 1.5);
+  res.style.display='block'; res.style.color='var(--accent4)';
+  res.textContent = `✅ T = a^(3/2) = ${a}^1,5 = ${T.toFixed(3)} Jahre\n= ${(T*365.25).toFixed(1)} Tage`;
+}
+function calcTitius() {
+  const n = parseFloat(document.getElementById('titius_n').value);
+  const res = document.getElementById('titius-result');
+  if(isNaN(n)){res.style.display='block';res.style.color='var(--accent2)';res.textContent='⚠️ Zahl eingeben';return;}
+  const a = 0.4 + 0.3*Math.pow(2,n);
+  res.style.display='block'; res.style.color='var(--accent4)';
+  res.textContent = `✅ a = 0,4 + 0,3 · 2^${n} = 0,4 + ${(0.3*Math.pow(2,n)).toFixed(2)} = ${a.toFixed(2)} AE`;
+}
+
+// QUIZ
+const questions = [
+  {q:"Welcher Planet hat die größte Exzentrizität seiner Bahn?",
+   opts:["Mars","Merkur","Pluto","Neptun"],ans:2,
+   exp:"Pluto hat ε ≈ 0,2522, Merkur ε ≈ 0,2056 unter den 'klassischen' Planeten."},
+  {q:"Was besagt das 2. Keplersche Gesetz?",
+   opts:["T² ~ a³","Ellipsenbahn mit Sonne im Brennpunkt","Gleiche Flächen in gleichen Zeiten","Kreisbahn um Schwerpunkt"],ans:2,
+   exp:"Der Flächensatz: der Fahrstrahl überstreicht in gleichen Zeiten gleiche Flächen → beim Perihel schnell, beim Aphel langsam."},
+  {q:"Wie lautet die Titius-Bode-Formel?",
+   opts:["a = 0,3 + 0,4·2ⁿ","a = 0,4 + 0,3·2ⁿ","a = 0,4 · nᵌ","a = 0,3·n²"],ans:1,
+   exp:"a = 0,4 + 0,3·2ⁿ mit n = -∞, 0, 1, 2, 3..."},
+  {q:"Welcher Planet weicht bei Titius-Bode am stärksten ab?",
+   opts:["Uranus","Saturn","Neptun","Pluto"],ans:2,
+   exp:"Neptun: berechnet 38,8 AE, beobachtet 30,44 AE – fast 30% Abweichung!"},
+  {q:"Die numerische Exzentrizität ist definiert als:",
+   opts:["e/b","e/a","a/e","b/a"],ans:1,
+   exp:"ε = e/a, wobei e die lineare Exzentrizität (Abstand Mittelpunkt–Brennpunkt) und a die große Halbachse ist."},
+  {q:"Welche mittlere Dichte haben erdartige Planeten?",
+   opts:["0,69 – 1,33 g/cm³","1,5 – 2,5 g/cm³","3,9 – 5,5 g/cm³","6 – 8 g/cm³"],ans:2,
+   exp:"Erdartige Planeten: 3,9–5,5 g/cm³ (felsig, dicht). Jupiterartige: nur 0,69–1,33 g/cm³."},
+  {q:"Bei welcher Konstellation ist ein äußerer Planet am besten sichtbar?",
+   opts:["Konjunktion","Opposition","Größter Elongation","Aphel"],ans:1,
+   exp:"Bei Opposition steht der Planet der Sonne gegenüber, hat minimalen Abstand zur Erde und ist die ganze Nacht sichtbar."},
+  {q:"Welchen Abstand hat die Erde von der Sonne in AE?",
+   opts:["0,72 AE","1,00 AE","1,52 AE","2,0 AE"],ans:1,
+   exp:"1 AE (Astronomische Einheit) ist per Definition der mittlere Abstand Erde–Sonne = 149,6 Mio. km."},
+  {q:"Ein Planet hat Perihel 0,5 AE und Aphel 1,5 AE. Wie groß ist die große Halbachse a?",
+   opts:["0,5 AE","1,0 AE","1,5 AE","2,0 AE"],ans:1,
+   exp:"a = (r_P + r_A)/2 = (0,5 + 1,5)/2 = 1,0 AE"},
+  {q:"Welche Achsneigung hat Uranus (Äquator zur Bahnebene)?",
+   opts:["23°","45°","98°","180°"],ans:2,
+   exp:"Uranus kippt mit ~97°59' fast auf die Seite – er 'rollt' quasi um die Sonne."},
+];
+
+let quizAnswered = [];
+function initQuiz() {
+  quizAnswered = new Array(questions.length).fill(false);
+  const c = document.getElementById('quiz-container');
+  document.getElementById('quiz-score').style.display='none';
+  c.innerHTML = questions.map((q,i) => `
+    <div class="quiz-q" id="qq${i}">
+      <div class="q-text">${i+1}. ${q.q}</div>
+      ${q.opts.map((o,j) => `<button class="quiz-option" onclick="answerQ(${i},${j})" id="qo${i}_${j}">${o}</button>`).join('')}
+      <div class="quiz-explain" id="qe${i}">${q.exp}</div>
+    </div>
+  `).join('');
+}
+function answerQ(qi, oi) {
+  if(quizAnswered[qi]) return;
+  quizAnswered[qi] = true;
+  const q = questions[qi];
+  document.querySelectorAll(`[id^="qo${qi}_"]`).forEach(b => b.disabled=true);
+  document.getElementById(`qo${qi}_${oi}`).classList.add(oi===q.ans?'correct':'wrong');
+  if(oi!==q.ans) document.getElementById(`qo${qi}_${q.ans}`).classList.add('correct');
+  document.getElementById(`qe${qi}`).style.display='block';
+  if(quizAnswered.every(Boolean)) showScore();
+}
+function showScore() {
+  const score = questions.reduce((s,q,i) => {
+    const btns = document.querySelectorAll(`[id^="qo${i}_"]`);
+    for(const b of btns) if(b.classList.contains('correct') && !b.classList.contains('wrong')) return s+1;
+    return s;
+  }, 0);
+  const total = questions.length;
+  const sc = document.getElementById('quiz-score');
+  sc.style.display='block';
+  document.getElementById('score-text').textContent = `${score} / ${total} richtig`;
+  const pct = Math.round(score/total*100);
+  document.getElementById('score-msg').textContent = pct>=80 ? '🎉 Sehr gut! Du bist bereit für morgen!' : pct>=60 ? '📚 Gut! Noch die markierten Themen wiederholen.' : '💪 Weitermachen – nochmal versuchen!';
+}
+
+initQuiz();
+updateProgress();
+
+// ======================== FLASHCARDS ========================
+const allCards = [
+  {cat:"Definitionen", q:"Was ist die numerische Exzentrizität ε?", a:"<strong>ε = e / a</strong><br>Verhältnis von linearer Exzentrizität e zur großen Halbachse a.<br>ε=0 → Kreis · ε→1 → sehr gestreckte Ellipse"},
+  {cat:"Definitionen", q:"Was ist das Perihel?", a:"Der <strong>sonnennächste Punkt</strong> einer Planetenbahn.<br>r_P = a − e<br>Hier ist der Planet am schnellsten (2. Keplersches Gesetz)"},
+  {cat:"Definitionen", q:"Was ist das Aphel?", a:"Der <strong>sonnenfernste Punkt</strong> einer Planetenbahn.<br>r_A = a + e<br>Hier ist der Planet am langsamsten"},
+  {cat:"Definitionen", q:"Was ist die lineare Exzentrizität e?", a:"Der <strong>Abstand vom Mittelpunkt der Ellipse zum Brennpunkt</strong>.<br>Zusammenhang: a² = b² + e²"},
+  {cat:"Definitionen", q:"Was ist der scheinbare Durchmesser?", a:"Der <strong>Winkel</strong>, unter dem ein Objekt am Himmel erscheint.<br>δ ≈ 2r/d · 206265 [Bogensekunden]<br>Hängt von Größe UND Abstand ab!"},
+  {cat:"Definitionen", q:"Was ist eine Opposition?", a:"Sonne – Erde – Planet liegen in einer Linie.<br><strong>Beste Sichtbarkeit</strong> für äußere Planeten (minimaler Abstand, ganze Nacht sichtbar)"},
+  {cat:"Definitionen", q:"Was ist eine Konjunktion?", a:"Planet und Sonne stehen in gleicher Richtung.<br><strong>Nicht sichtbar</strong> – Planet steht hinter der Sonne"},
+  {cat:"Definitionen", q:"Was sind erdartige Planeten?", a:"<strong>Merkur, Venus, Erde, Mars</strong><br>Klein, felsig, dicht (3,9–5,5 g/cm³)<br>Masse: 0,05–1 m_E · Radius: 0,4–1 R_E"},
+  {cat:"Definitionen", q:"Was sind jupiterartige Planeten?", a:"<strong>Jupiter, Saturn, Uranus, Neptun</strong><br>Groß, gasförmig, leicht (0,69–1,33 g/cm³)<br>Masse: 17–317 m_E · Radius: 3,8–11,3 R_E"},
+  {cat:"Formeln", q:"Wie lautet das 3. Keplersche Gesetz?", a:"<strong>T² / a³ = const.</strong><br>Bezogen auf die Erde:<br>T [Jahre] = a^1,5 [AE]"},
+  {cat:"Formeln", q:"Wie lautet die Titius-Bodesche Reihe?", a:"<strong>a = 0,4 + 0,3 · 2ⁿ</strong> [AE]<br>Merkur: n→−∞ · Venus: n=0 · Erde: n=1 · Mars: n=2 ..."},
+  {cat:"Formeln", q:"Wie berechnet man die große Halbachse a aus Perihel und Aphel?", a:"<strong>a = (r_P + r_A) / 2</strong><br>Beispiel Mars: a = (1,381 + 1,666)/2 = 1,524 AE"},
+  {cat:"Formeln", q:"Wie hängen a, b und e zusammen?", a:"<strong>a² = b² + e²</strong><br>a = große Halbachse<br>b = kleine Halbachse<br>e = lineare Exzentrizität"},
+  {cat:"Formeln", q:"Wie berechnet man den scheinbaren Durchmesser in Bogensekunden?", a:"<strong>δ = (2r / d) · 206265</strong><br>r = physischer Radius<br>d = Abstand zum Beobachter<br>206265 = Bogensekunden pro Radiant"},
+  {cat:"Fakten", q:"Welcher Planet hat die größte Exzentrizität?", a:"<strong>Pluto</strong> mit ε ≈ 0,2522<br>Unter den 8 Planeten: Merkur mit ε ≈ 0,2056"},
+  {cat:"Fakten", q:"Welcher Planet hat die extremste Achsneigung?", a:"<strong>Uranus</strong> mit 97° 59'<br>Er 'rollt' quasi um die Sonne – liegt fast auf der Seite!"},
+  {cat:"Fakten", q:"Wo versagt die Titius-Bodesche Reihe?", a:"Bei <strong>Neptun</strong>: berechnet 38,8 AE, beobachtet nur 30,44 AE<br>→ fast 30% Abweichung!<br>Bei n=3 wurde korrekt der Asteroidengürtel vorhergesagt."},
+  {cat:"Fakten", q:"Welcher Planet hat den größten scheinbaren Durchmesser von der Erde aus?", a:"<strong>Venus</strong> (bis 60 Bogensekunden)<br>Obwohl nicht der größte Planet – weil sie bis auf 41 Mio. km an die Erde herankommt!"},
+  {cat:"Fakten", q:"Wie schnell ist Merkur und warum?", a:"<strong>47,9 km/s</strong> – schnellster Planet.<br>Weil er der Sonne am nächsten ist (2. Keplersches Gesetz: beim Perihel schnellste Geschwindigkeit)"},
+  {cat:"Fakten", q:"Was sagt das logarithmische T-a-Diagramm aus?", a:"Alle Planeten liegen auf einer <strong>Geraden mit Steigung 3/2</strong>.<br>Das ist die grafische Darstellung des <strong>3. Keplerschen Gesetzes</strong>: T² ~ a³"},
+];
+
+let fcDeck = [...allCards];
+let fcIndex = 0;
+let fcStates = {}; // 'known' | 'unknown' | undefined
+let fcFilter = 'all';
+
+function buildDots() {
+  const row = document.getElementById('fc-dots');
+  row.innerHTML = fcDeck.map((c,i) => {
+    const id = allCards.indexOf(c);
+    const state = fcStates[id];
+    let cls = state==='known'?'known':state==='unknown'?'unknown':i<fcIndex?'seen':'';
+    if(i===fcIndex) cls += ' current';
+    return `<div class="fc-dot ${cls}"></div>`;
+  }).join('');
+}
+
+function showCard() {
+  if(!fcDeck.length) {
+    document.getElementById('fc-q').textContent = 'Keine Karten in dieser Kategorie!';
+    document.getElementById('fc-a').textContent = '';
+    document.getElementById('fc-cat').textContent = '';
+    document.getElementById('fc-counter').textContent = '0 / 0';
+    return;
+  }
+  const card = fcDeck[fcIndex];
+  document.getElementById('fc-inner').classList.remove('flipped');
+  setTimeout(() => {
+    document.getElementById('fc-cat').textContent = card.cat;
+    document.getElementById('fc-cat-back').textContent = card.cat;
+    document.getElementById('fc-q').textContent = card.q;
+    document.getElementById('fc-a').innerHTML = card.a;
+    document.getElementById('fc-counter').textContent = `${fcIndex+1} / ${fcDeck.length}`;
+    document.getElementById('fc-prev').disabled = fcIndex===0;
+    document.getElementById('fc-next').disabled = fcIndex===fcDeck.length-1;
+    buildDots();
+  }, 50);
+}
+
+function flipCard() {
+  document.getElementById('fc-inner').classList.toggle('flipped');
+}
+
+function fcNav(dir) {
+  fcIndex = Math.max(0, Math.min(fcDeck.length-1, fcIndex+dir));
+  showCard();
+}
+
+function fcMark(state) {
+  if(!fcDeck.length) return;
+  const id = allCards.indexOf(fcDeck[fcIndex]);
+  fcStates[id] = state;
+  buildDots();
+  if(fcIndex < fcDeck.length-1) { fcIndex++; showCard(); }
+}
+
+function setFilter(filter, btn) {
+  fcFilter = filter;
+  document.querySelectorAll('.fc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(filter==='all') fcDeck = [...allCards];
+  else if(filter==='unknown') fcDeck = allCards.filter((_,i) => fcStates[i]==='unknown');
+  else fcDeck = allCards.filter(c => c.cat===filter);
+  fcIndex = 0;
+  showCard();
+}
+
+function shuffleCards() {
+  for(let i=fcDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcDeck[i],fcDeck[j]]=[fcDeck[j],fcDeck[i]];}
+  fcIndex=0; showCard();
+}
+
+function resetCards() {
+  fcStates={};fcIndex=0;fcDeck=[...allCards];
+  document.querySelectorAll('.fc-filter-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  fcFilter='all'; showCard();
+}
+
+showCard();
+</script>
+</body>
+</html>
