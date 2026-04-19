@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industrialisierung in Deutschland – Klausurvorbereitung</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg2: #141414;
+    --bg3: #1c1c1c;
+    --card: #1e1e1e;
+    --border: #2a2a2a;
+    --accent: #c8922a;
+    --accent2: #e8b84b;
+    --text: #e8e0d4;
+    --muted: #888;
+    --green: #4caf82;
+    --red: #e05c5c;
+    --blue: #5c9ee0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent2);
+    letter-spacing: 0.02em;
+  }
+  .topbar-title span { color: var(--muted); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; margin-left: 10px; }
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+  }
+  .tab-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--muted);
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); border-color: var(--border); }
+  .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+
+  /* MAIN LAYOUT */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ═══════════════════ MERKEN (MAIN) ═══════════════════ */
+  .merkseite {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .merk-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .merk-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--accent2);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .merk-header p { color: var(--muted); font-size: 0.95rem; }
+
+  .section-block {
+    margin-bottom: 48px;
+  }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding: 4px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+
+  /* CONTENT BLOCKS */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .info-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .info-card:hover { border-color: var(--accent); }
+  .info-card h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .info-card p, .info-card li {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #ccc;
+  }
+  .info-card ul { padding-left: 16px; }
+  .info-card li { margin-bottom: 3px; }
+  .info-card.highlight { border-color: var(--accent); background: #211a0e; }
+
+  .prose-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    font-size: 0.94rem;
+    line-height: 1.75;
+    color: #ccc;
+    margin-bottom: 14px;
+  }
+  .prose-block strong { color: var(--accent2); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .tl-date {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent2);
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+  .tl-text {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.55;
+  }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .tab-btn { padding: 7px 10px; font-size: 0.78rem; }
+  }
+
+  /* MERKE BADGE */
+  .merke-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    text-transform: uppercase;
+  }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .tag {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* VERGLEICH TABLE */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .compare-table th {
+    background: var(--bg3);
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--accent2);
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent);
+  }
+  .compare-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: #ccc;
+    vertical-align: top;
+  }
+  .compare-table tr:hover td { background: var(--bg3); }
+
+  /* ═══════════════════ KARTEIKARTEN ═══════════════════ */
+  .karteikarten-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .kk-header { text-align: center; margin-bottom: 30px; }
+  .kk-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent2); margin-bottom: 6px; }
+  .kk-header p { color: var(--muted); font-size: 0.9rem; }
+  .kk-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .kk-filter {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .kk-filter.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+
+  .card-container {
+    perspective: 1200px;
+    height: 260px;
+    cursor: pointer;
+    margin-bottom: 24px;
+  }
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 28px;
+  }
+  .card-front {
+    background: linear-gradient(135deg, #1e1e1e 0%, #252016 100%);
+    border: 1px solid var(--accent);
+  }
+  .card-back {
+    background: linear-gradient(135deg, #0f1a12 0%, #1a2210 100%);
+    border: 1px solid var(--green);
+    transform: rotateY(180deg);
+  }
+  .card-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: #2a2008;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .card-back .card-tag { color: var(--green); background: #0a1a0f; }
+  .card-hint {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .card-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .card-answer {
+    font-size: 0.92rem;
+    color: #ccc;
+    line-height: 1.7;
+  }
+  .card-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .card-nav button {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .card-nav button:hover { border-color: var(--accent); color: var(--accent2); }
+  .card-counter { color: var(--muted); font-size: 0.9rem; min-width: 60px; text-align: center; }
+
+  /* ═══════════════════ QUIZ ═══════════════════ */
+  .quiz-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .quiz-header { text-align: center; margin-bottom: 32px; }
+  .quiz-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent2); margin-bottom: 6px; }
+  .quiz-header p { color: var(--muted); font-size: 0.9rem; }
+
+  .quiz-progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-q-num { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .quiz-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.45;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .quiz-opt {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.45;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: #211a0e; }
+  .quiz-opt.correct { border-color: var(--green); background: #0a1a0f; color: #7de0a8; }
+  .quiz-opt.wrong { border-color: var(--red); background: #1a0a0a; color: #e08080; }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #0a1a0f; border: 1px solid var(--green); color: #7de0a8; }
+  .quiz-feedback.wrong { background: #1a0a0a; border: 1px solid var(--red); color: #e08080; }
+
+  .quiz-next-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: none;
+    transition: all 0.2s;
+  }
+  .quiz-next-btn:hover { background: var(--accent2); }
+  .quiz-next-btn.show { display: inline-block; }
+
+  .quiz-score {
+    text-align: center;
+    padding: 48px 20px;
+    display: none;
+  }
+  .quiz-score.show { display: block; }
+  .quiz-score .score-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--accent2);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .quiz-score p { color: var(--muted); margin-bottom: 24px; font-size: 1rem; }
+  .quiz-restart {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 6px;
+  }
+
+  /* ═══════════════════ GLOSSAR ═══════════════════ */
+  .glossar-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .glossar-wrap h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent2); margin-bottom: 8px; text-align: center; }
+  .glossar-wrap .sub { text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+  .glossar-search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 24px;
+    transition: border-color 0.2s;
+  }
+  .glossar-search:focus { outline: none; border-color: var(--accent); }
+  .glossar-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .glossar-item:hover { border-color: var(--accent); }
+  .glossar-item .g-term {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent2);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .glossar-item .g-def {
+    font-size: 0.88rem;
+    color: #bbb;
+    line-height: 1.65;
+  }
+  .glossar-item .g-cat {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--bg3);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* ═══════════════════ CHECKLISTE ═══════════════════ */
+  .check-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .check-header { text-align: center; margin-bottom: 32px; }
+  .check-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent2); margin-bottom: 6px; }
+  .check-header p { color: var(--muted); font-size: 0.9rem; }
+  .check-progress {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .check-progress .cp-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+  .cp-bar-wrap { flex: 1; }
+  .cp-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+  .cp-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .cp-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s; }
+
+  .check-group { margin-bottom: 28px; }
+  .check-group-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .check-group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .check-item:hover { border-color: var(--accent); }
+  .check-item.done { background: #0c150f; border-color: #2a5038; }
+  .check-item.done .check-text { color: var(--muted); text-decoration: line-through; }
+  .check-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 0.75rem;
+  }
+  .check-item.done .check-box { background: var(--green); border-color: var(--green); color: #000; }
+  .check-text { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+  .check-reset {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    margin-top: 12px;
+  }
+  .check-reset:hover { border-color: var(--red); color: var(--red); }
+
+  /* COLLAPSIBLE SECTIONS */
+  .section-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 30px;
+  }
+  .section-header::after {
+    content: '✕';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    font-size: 1rem;
+    color: var(--accent);
+    transition: transform 0.3s;
+    font-weight: 300;
+  }
+  .section-block.collapsed .section-header::after {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  .section-content {
+    max-height: 5000px;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+  }
+  .section-block.collapsed .section-content {
+    max-height: 0;
+  }
+  .section-block {
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+  }
+  .section-title {
+    margin-bottom: 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  input, select, button { outline: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">📚 Industrialisierung <span>Klausur Mi.</span></div>
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('merken')">Merken</button>
+    <button class="tab-btn" onclick="showTab('karteikarten')">Karteikarten</button>
+    <button class="tab-btn" onclick="showTab('quiz')">Quiz</button>
+    <button class="tab-btn" onclick="showTab('glossar')">Glossar</button>
+    <button class="tab-btn" onclick="showTab('checkliste')">Checkliste</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MERKEN (HAUPTSEITE)
+═══════════════════════════════════════════════════ -->
+<div id="page-merken" class="page active">
+<div class="merkseite">
+  <div class="merk-header">
+    <h1>Die Industrialisierung<br>in Deutschland</h1>
+    <p>~1835 bis 1914 · Dein kompletter Klausurstoff auf einen Blick</p>
+  </div>
+
+  <!-- ÜBERBLICK -->
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Überblick</div>
+      <div class="section-title">Deutschlands Weg zur Industrienation</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        Deutschland durchlief die Industrialisierung als <strong>zweite Generation</strong> – später als England, dafür aber <strong>dynamischer und komprimierter</strong>. Im Gegensatz zu England dominierte nicht die Textilindustrie, sondern <strong>Metall, Kohle und der Eisenbahnbau</strong> als Wachstumsmotoren. Der Prozess verlief in zwei großen Phasen.
+      </div>
+      <div class="info-grid">
+        <div class="info-card highlight">
+          <h4>Phase 1 · ~1835–1870</h4>
+          <ul>
+            <li>Schrittmacher: <strong>Eisenbahnbau</strong></li>
+            <li>Erste Strecke 1835: Nürnberg–Fürth</li>
+            <li>Entstehung von Banken & Sparkassen</li>
+            <li>Zollverein 1834 als Begünstiger</li>
+            <li>Aufblühen: Maschinenbau, Eisen, Stahl</li>
+          </ul>
+        </div>
+        <div class="info-card highlight">
+          <h4>Phase 2 · 1871–1914 „Hochindustrialisierung"</h4>
+          <ul>
+            <li>Auslöser: Reichsgründung 1871</li>
+            <li>5 Mrd. Francs Kriegsentschädigung (Fr.-Preuß. Krieg)</li>
+            <li>Gebietsgewinn: Elsass-Lothringen (Eisenerz!)</li>
+            <li>Neue Branchen: Chemie & Elektro</li>
+            <li>Entstehung von Großbanken & Reichsbank</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 DETAIL -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Phase 1</div>
+      <div class="section-title">Eisenbahnbau als Schrittmacher</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        Der Eisenbahnbau war der <strong>Katalysator der ersten Industrialisierungsphase</strong>. Durch den gestiegenen Bedarf an Lokomotiven, Schienen und Waggons brachte er ganze Industrien zum Aufblühen – Maschinenbau sowie Eisen- und Stahlindustrie. Finanziert wurde er durch <strong>Kredite und Aktiengesellschaften</strong>, was das Finanzsystem von lokalen Geldverleihern hin zu modernen Banken reformierte.
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>Wichtige Fakten Eisenbahn</h4>
+          <ul>
+            <li>1834: Zollverein begünstigt Eisenbahn</li>
+            <li>1835: erste dt. Strecke Nürnberg–Fürth</li>
+            <li>1893: Einheitliche Zeit durch Eisenbahn festgelegt</li>
+            <li>Finanzierung: Aktiengesellschaften & Kredite</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Folgewirkungen</h4>
+          <ul>
+            <li>Maschinenbau boomt</li>
+            <li>Eisen- & Stahlindustrie wächst</li>
+            <li>Neue Arbeitsplätze entstehen</li>
+            <li>Bankwesen modernisiert sich: lokale Geldverleiher → Banken & Sparkassen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 DETAIL -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Phase 2 · Hochindustrialisierung</div>
+      <div class="section-title">Neue Technologien 1871–1914</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        Die <strong>Reichsgründung 1871</strong> schuf staatliche Einheit als begünstigenden Faktor. Der Sieg im Deutsch-Französischen Krieg 1870 brachte <strong>5 Mrd. Francs Kriegsentschädigung</strong> und den ressourcenreichen Gebietsgewinn <strong>Elsass-Lothringen</strong>. Die Phase war geprägt von Technologieschüben in gleich drei Bereichen.
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>A) Chemieindustrie</h4>
+          <ul>
+            <li>Bleichstoffe & Farben für Textilindustrie</li>
+            <li>Pharmazie</li>
+            <li>Explosivstoffe</li>
+            <li>Voraussetzung: naturwissenschaftlich ausgebildete Fachkräfte → techn. Hochschulen</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>B) Elektroindustrie</h4>
+          <ul>
+            <li>Telefon, Telegraf → Informationsverbreitung</li>
+            <li>Glühbirne → elektr. Straßenbeleuchtung</li>
+            <li>Elektrische Energie allgemein verfügbar</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>C) Fortbewegung</h4>
+          <ul>
+            <li>Verbrennungsmotor</li>
+            <li>Motorwagen (Benzinmotor)</li>
+            <li>Automobilbau – z.B. <strong>Carl Benz</strong></li>
+            <li>Luftfahrt & Schifffahrt durch Verbrennungsmotoren</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Weitere Kennzeichen</h4>
+          <ul>
+            <li>Verstärkter Kapitaleinsatz</li>
+            <li>Mehr Arbeitskräfte nötig</li>
+            <li>Fortschritte in Montan- & Schwerindustrie</li>
+            <li>Stabeisen/-stahl ab 1885 im Hoch-/Tiefbau</li>
+            <li><strong>Reichsbank</strong> als staatliche Zentralbank</li>
+            <li>Entstehung von Großbanken</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SACHSEN -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Regionalbeispiel</div>
+      <div class="section-title">Sachsen – Pionierland der Industrialisierung</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        Sachsen spielte eine <strong>führende Rolle</strong> bei der deutschen Industrialisierung, begünstigt durch Rohstoffreichtum, günstige Lage im Fernhandelsnetz und staatliche Förderung. Ab 1831 besaß Sachsen eine fortschrittliche Verfassung mit liberalen wirtschaftlichen Bestimmungen. Die <strong>Textilindustrie</strong> war die Pilotbranche.
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>Gründe für Sachsens Vorreiterrolle</h4>
+          <ul>
+            <li>Reichtum: Kohle, Silbererz, Eisenerz, Wasserkraft, Holz</li>
+            <li>Lage: Leipzig als Knotenpunkt Nord-Süd und Ost-West</li>
+            <li>Protoindustrielle Zentren: Erzgebirge, Vogtland, Chemnitz, Zwickau</li>
+            <li>Staatliche Investitionen & Gewerbeförderung</li>
+            <li>Bevölkerungswachstum → Arbeitskräftereservoir</li>
+            <li>Gelockerte Agrarverfassung (Bauernfreiheit)</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Textilindustrie als Pilotbranche</h4>
+          <ul>
+            <li>1799: erste Spinnerei in Chemnitz</li>
+            <li>1800: erste Spinnereifabrik in <strong>Harthau</strong></li>
+            <li>1804: 200 Maschinenspinner beschäftigt</li>
+            <li>Schutz durch Napoleons <strong>Kontinentalsperre</strong> (1807–1813)</li>
+            <li>1840: über 30.000 Menschen im Raum Chemnitz in Textilproduktion</li>
+            <li>Einsatz englischer Maschinen & eigene Erfindungen</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Timeline Sachsen -->
+      <div class="info-card" style="margin-top:14px">
+        <h4>Zeitstrahl Sachsen</h4>
+        <div class="timeline" style="margin-top:14px">
+          <div class="tl-item"><div class="tl-date">1799</div><div class="tl-text">Erste Spinnerei in Chemnitz – Maschinenproduktion beginnt</div></div>
+          <div class="tl-item"><div class="tl-date">1800</div><div class="tl-text">Gründung der ersten sächsischen Spinnereifabrik in Harthau</div></div>
+          <div class="tl-item"><div class="tl-date">1822</div><div class="tl-text">Erste Chemnitzer Dampfmaschine</div></div>
+          <div class="tl-item"><div class="tl-date">1836</div><div class="tl-text">Elbpersonendampfer in Betrieb</div></div>
+          <div class="tl-item"><div class="tl-date">1837</div><div class="tl-text">Richard Hartmann gründet bedeutendste Maschinenbaufabrik Sachsens</div></div>
+          <div class="tl-item"><div class="tl-date">1838</div><div class="tl-text">Dampflokomotive „Saxonia"</div></div>
+          <div class="tl-item"><div class="tl-date">1839</div><div class="tl-text">Erste dt. Eisenbahnfernlinie: Dresden–Leipzig</div></div>
+          <div class="tl-item"><div class="tl-date">1846/51</div><div class="tl-text">Bau der Göltzschtalbrücke</div></div>
+          <div class="tl-item"><div class="tl-date">1848</div><div class="tl-text">Dampflokomotive „Glückauf"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEMNITZ -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Chemnitz</div>
+      <div class="section-title">Das „Sächsische Manchester"</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        Chemnitz entwickelte sich wie das englische Manchester zur <strong>bedeutendsten Industriestadt der Region</strong>. Beide Städte: Zentren der Textil- und Maschinenproduktion, rasante Bevölkerungszunahme durch Arbeiterzuzug, dichte Fabrik- und Maschinenbaukonzentration. Chemnitz war <strong>Symbol der neuen Industriegesellschaft</strong> – mit Chancen und sozialen Folgen.
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>Zahlen & Fakten</h4>
+          <ul>
+            <li>1820er: Carl Gottfried Haubold begründet Chemnitzer Maschinenbau</li>
+            <li>1837: Hartmann gründet größte Maschinenfabrik Sachsens</li>
+            <li>1846: Chemnitz + Zwickau zusammen 135 Werkzeugmaschinenfabriken</li>
+            <li>Produkte: Lokomotiven, Webstühle, Turbinen, Bergwerksmaschinen, Gewehre</li>
+            <li>Bis 1900: ~5.000 Arbeiter bei Hartmann allein</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Bevölkerungswachstum (exponentiell)</h4>
+          <ul>
+            <li>1840: ~25.000 Einwohner</li>
+            <li>1870: ~75.000 Einwohner</li>
+            <li>1880: ~100.000 Einwohner</li>
+            <li>1900: ~200.000 Einwohner</li>
+            <li><strong>Grund:</strong> Fabrikneugründungen → Arbeitsplätze → Landflucht in die Stadt</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLIEßBAND -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Produktion</div>
+      <div class="section-title">Fließbandarbeit – Vor- & Nachteile</div>
+    </div>
+    <div class="section-content">
+      <div class="two-col">
+        <div class="info-card">
+          <h4>✅ Vorteile</h4>
+          <ul>
+            <li>Effizienz & Massenproduktion</li>
+            <li>Spezialisierung der Arbeiter</li>
+            <li>Viele neue Arbeitsplätze</li>
+            <li>Günstigere Produkte</li>
+            <li>Gleichbleibende Qualität</li>
+            <li>Leicht anzulernen</li>
+            <li>Weniger Raumbedarf</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>❌ Nachteile</h4>
+          <ul>
+            <li>Eintönige, stressige Arbeit</li>
+            <li>Laut & körperlich anstrengend</li>
+            <li>Gefährlich (wenig Arbeitsschutz)</li>
+            <li>Hoher Druck</li>
+            <li>Maschinenausfall legt gesamte Produktion lahm</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOLGEN DER INDUSTRIALISIERUNG -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Gesellschaftliche Folgen</div>
+      <div class="section-title">Urbanisierung & Lebensbedingungen</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        <strong>Urbanisierung</strong> = Verstädterung und Ausbildung städtischer Lebensweisen. Die Binnenwanderung vom Land in die Stadt (Ost → West) war massiv. Viele Landbewohner sahen die Stadt als Ort von Glück, Reichtum und unbegrenzten Chancen → <strong>Landflucht</strong>.
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>Urbanisierung in Zahlen</h4>
+          <ul>
+            <li><strong>Vor 1871:</strong> Deutschland von Dörfern geprägt, handvoll Großstädte (&gt;100.000 EW)</li>
+            <li><strong>Vor WK I:</strong> 48 Großstädte</li>
+            <li>Berlin zur <strong>Millionenstadt</strong> gewachsen</li>
+            <li>Hauptziele: Ruhrgebiet, Großraum Berlin, Mittel- & Südwestdeutschland</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Arbeitsbedingungen in Fabriken</h4>
+          <ul>
+            <li>Wenig Arbeitsschutz</li>
+            <li>Kinderarbeit verbreitet</li>
+            <li>Körperlich schwer & eintönig</li>
+            <li>Lange Arbeitszeiten</li>
+            <li>Extreme Lautstärke</li>
+            <li>Massenarbeit – durchgetaktet, jeder Tag gleich</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Lebensbedingungen in der Stadt</h4>
+          <ul>
+            <li>Städte verqualmt & chaotisch</li>
+            <li>Wenig Wohnraum & Erholungszeit</li>
+            <li>Schlechte medizinische Versorgung</li>
+            <li>Alkohol- & Drogenabhängigkeit</li>
+            <li>Wenig Essen</li>
+            <li><strong>Pauperismus</strong> = Massenarmut</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAZIT -->
+  <div class="section-block collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-label">Fazit</div>
+      <div class="section-title">Deutschlands Industrialisierung im Überblick</div>
+    </div>
+    <div class="section-content">
+      <div class="prose-block">
+        <span class="merke-badge">Merke</span> Deutschland industrialisierte sich als <strong>zweite Generation</strong> – später als England, dafür <strong>dynamischer und komprimierter</strong>. Statt Textil dominierten <strong>Metall, Kohle und der Eisenbahnbau</strong>. Besondere Impulse gingen vom Eisenbahnbau aus. Das Ergebnis: wirtschaftliche Großmacht, aber auch massive soziale Probleme (Pauperismus, Urbanisierung, Kinderarbeit).
+      </div>
+      <div class="tag-list">
+        <span class="tag">Eisenbahnbau 1835</span>
+        <span class="tag">Zollverein 1834</span>
+        <span class="tag">Reichsgründung 1871</span>
+        <span class="tag">Hochindustrialisierung</span>
+        <span class="tag">Chemnitz = Sächs. Manchester</span>
+        <span class="tag">Pauperismus</span>
+        <span class="tag">Landflucht</span>
+        <span class="tag">Kontinentalsperre 1807–1813</span>
+        <span class="tag">Carl Benz</span>
+        <span class="tag">Hartmann 1837</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     KARTEIKARTEN
+═══════════════════════════════════════════════════ -->
+<div id="page-karteikarten" class="page">
+<div class="karteikarten-wrap">
+  <div class="kk-header">
+    <h2>Karteikarten</h2>
+    <p>Klick auf die Karte zum Umdrehen</p>
+  </div>
+  <div class="kk-controls">
+    <button class="kk-filter active" onclick="filterCards('alle')">Alle</button>
+    <button class="kk-filter" onclick="filterCards('phase1')">Phase 1</button>
+    <button class="kk-filter" onclick="filterCards('phase2')">Phase 2</button>
+    <button class="kk-filter" onclick="filterCards('sachsen')">Sachsen</button>
+    <button class="kk-filter" onclick="filterCards('folgen')">Folgen</button>
+  </div>
+
+  <div class="card-container" onclick="flipCard()">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face card-front">
+        <div class="card-tag" id="cardCat">Frage</div>
+        <div class="card-question" id="cardQ">Lade...</div>
+        <div class="card-hint">Klicken zum Umdrehen</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-tag">Antwort</div>
+        <div class="card-answer" id="cardA">Lade...</div>
+        <div class="card-hint">Klicken zum Umdrehen</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-nav">
+    <button onclick="prevCard()">← Zurück</button>
+    <span class="card-counter" id="cardCounter">1 / 1</span>
+    <button onclick="nextCard()">Weiter →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     QUIZ
+═══════════════════════════════════════════════════ -->
+<div id="page-quiz" class="page">
+<div class="quiz-wrap">
+  <div class="quiz-header">
+    <h2>Quiz</h2>
+    <p>Teste dein Wissen – 15 Fragen</p>
+  </div>
+  <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgress"></div></div>
+  <div id="quizContent">
+    <div class="quiz-q-num" id="quizQNum"></div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuestion()">Weiter →</button>
+  </div>
+  <div class="quiz-score" id="quizScore">
+    <div class="score-num" id="scoreNum"></div>
+    <p id="scoreMsg"></p>
+    <button class="quiz-restart" onclick="startQuiz()">Nochmal</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     GLOSSAR
+═══════════════════════════════════════════════════ -->
+<div id="page-glossar" class="page">
+<div class="glossar-wrap">
+  <h2>Glossar</h2>
+  <p class="sub">Die wichtigsten Begriffe der Industrialisierung</p>
+  <input class="glossar-search" type="text" placeholder="Begriff suchen..." oninput="filterGlossar(this.value)" id="glossarSearch">
+  <div id="glossarList"></div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     CHECKLISTE
+═══════════════════════════════════════════════════ -->
+<div id="page-checkliste" class="page">
+<div class="check-wrap">
+  <div class="check-header">
+    <h2>Lerncheckliste</h2>
+    <p>Hak ab, was du drauf hast</p>
+  </div>
+  <div class="check-progress">
+    <div class="cp-num" id="cpNum">0/0</div>
+    <div class="cp-bar-wrap">
+      <div class="cp-label" id="cpLabel">Los geht's!</div>
+      <div class="cp-bar"><div class="cp-bar-fill" id="cpFill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div id="checklistContent"></div>
+  <button class="check-reset" onclick="resetChecklist()">Alle zurücksetzen</button>
+</div>
+</div>
+
+<script>
+// ═══════════════════ DATA ═══════════════════
+
+const CARDS = [
+  { cat:'phase1', q:'Was war die "Schrittmacherindustrie" der ersten Industrialisierungsphase?', a:'Der Eisenbahnbau. Er trieb Maschinenbau sowie Eisen- und Stahlindustrie an und schuf massenhaft Arbeitsplätze.' },
+  { cat:'phase1', q:'Wann wurde die erste deutsche Eisenbahnstrecke eröffnet – und wo?', a:'1835 zwischen Nürnberg und Fürth.' },
+  { cat:'phase1', q:'Wie wurde der Eisenbahnbau finanziert?', a:'Durch Kredite und Aktiengesellschaften, was das Finanzsystem von lokalen Geldverleihern zu modernen Banken & Sparkassen reformierte.' },
+  { cat:'phase1', q:'Welche Rolle spielte der Zollverein 1834 für die Industrialisierung?', a:'Er begünstigte den Eisenbahnbau und den freien Warenverkehr zwischen deutschen Staaten.' },
+  { cat:'phase1', q:'Was bewirkte der Eisenbahnbau 1893?', a:'Die Festlegung einer gemeinsamen (einheitlichen) Zeit in Deutschland.' },
+  { cat:'phase2', q:'Was waren die beiden wichtigsten Auslöser der Hochindustrialisierung ab 1871?', a:'1. Die Reichsgründung 1871 (staatliche Einheit). 2. Der Sieg im Deutsch-Französischen Krieg 1870 (5 Mrd. Francs + Elsass-Lothringen).' },
+  { cat:'phase2', q:'Warum war der Gebietsgewinn Elsass-Lothringen für die Industrie so wichtig?', a:'Es war ein Eisenerz-Gebiet – essentiell für Eisen- und Stahlproduktion.' },
+  { cat:'phase2', q:'Welche drei neuen Technologiebereiche kennzeichneten die Hochindustrialisierung?', a:'A) Chemieindustrie (Farben, Pharmazie, Explosivstoffe)\nB) Elektroindustrie (Glühbirne, Telefon, Telegraf)\nC) Neue Fortbewegungsmittel (Verbrennungsmotor, Automobil – z.B. Carl Benz)' },
+  { cat:'phase2', q:'Welche Finanzinstitution entstand in der Hochindustrialisierung als staatliche Zentralbank?', a:'Die Reichsbank. Dazu entstanden auch private Großbanken.' },
+  { cat:'sachsen', q:'Warum gilt Sachsen als Pionierland der deutschen Industrialisierung?', a:'Rohstoffreichtum (Kohle, Erze), günstige Handelslage (Leipzig), protoindustrielle Zentren, staatliche Förderung, Bevölkerungswachstum und gelockerte Agrarverfassung.' },
+  { cat:'sachsen', q:'Warum wird Chemnitz als "Sächsisches Manchester" bezeichnet?', a:'Wie Manchester war Chemnitz das industrielle Zentrum der Region: Textil- und Maschinenproduktion, rasantes Bevölkerungswachstum durch Arbeiterzuzug, dichte Fabrik- und Maschinenbaukonzentration.' },
+  { cat:'sachsen', q:'Wer gründete 1837 die bedeutendste Maschinenbaufabrik Sachsens?', a:'Richard Hartmann. Die Fabrik hatte bis 1900 etwa 5.000 Arbeiter und produzierte Lokomotiven, Webstühle, Turbinen und Bergwerksmaschinen.' },
+  { cat:'sachsen', q:'Welche Rolle spielte Napoleons Kontinentalsperre (1807–1813) für Sachsens Textilindustrie?', a:'Sie schützte die sächsische Produktion vor der überlegenen englischen Konkurrenz und ermöglichte so das Wachstum der einheimischen Textilindustrie.' },
+  { cat:'folgen', q:'Was bedeutet "Urbanisierung" im Kontext der Industrialisierung?', a:'Verstädterung und Ausbildung städtischer Lebensweisen. Binnenwanderung vom Land in die Stadt (Ost → West), ausgelöst durch Fabrikgründungen und die Hoffnung auf bessere Chancen → Landflucht.' },
+  { cat:'folgen', q:'Was ist "Pauperismus"?', a:'Massenarmut – eine der zentralen Folgen der Industrialisierung. Trotz Arbeit lebten viele Arbeiter in extremer Armut: wenig Essen, kaum Wohnraum, schlechte medizinische Versorgung.' },
+  { cat:'folgen', q:'Nenne drei typische Arbeitsbedingungen in Industriefabriken.', a:'Wenig Arbeitsschutz, Kinderarbeit, extrem lange Arbeitszeiten, extreme Lautstärke, eintönige Massenarbeit, körperlich schwere Arbeit.' },
+  { cat:'folgen', q:'Wie veränderte sich die Zahl der deutschen Großstädte durch die Industrialisierung?', a:'Vor 1871: handvoll Großstädte mit 100.000 EW. Vor WK I: 48 Großstädte. Berlin wurde zur Millionenstadt.' },
+];
+
+const QUIZ_QUESTIONS = [
+  { q:'In welchem Jahr fuhr die erste deutsche Eisenbahn?', opts:['1825','1835','1848','1871'], correct:1, expl:'1835 fuhr die erste deutsche Eisenbahn zwischen Nürnberg und Fürth.' },
+  { q:'Was war der Hauptauslöser der ersten Industrialisierungsphase in Deutschland?', opts:['Textilindustrie','Chemieindustrie','Eisenbahnbau','Automobilbau'], correct:2, expl:'Der Eisenbahnbau war die Schrittmacherindustrie der ersten Phase.' },
+  { q:'Wann wurde das Deutsche Reich gegründet?', opts:['1866','1870','1871','1875'], correct:2, expl:'Die Reichsgründung erfolgte 1871 nach dem Sieg im Deutsch-Französischen Krieg.' },
+  { q:'Welches Gebiet wurde nach dem Deutsch-Französischen Krieg gewonnen und war industriell bedeutsam?', opts:['Schleswig-Holstein','Bayern','Elsass-Lothringen','Rheinland'], correct:2, expl:'Elsass-Lothringen war ein Eisenerz-Gebiet und damit industriell enorm wertvoll.' },
+  { q:'Womit wurde Chemnitz verglichen?', opts:['London','Manchester','Birmingham','Leeds'], correct:1, expl:'Chemnitz wurde als "Sächsisches Manchester" bezeichnet – beide Städte waren das industrielle Zentrum ihrer Region.' },
+  { q:'Was gründete Richard Hartmann 1837 in Chemnitz?', opts:['Eine Textilfabrik','Eine Eisenbahn','Die bedeutendste Maschinenbaufabrik Sachsens','Eine Sparkasse'], correct:2, expl:'Richard Hartmann gründete 1837 die bedeutendste und größte Maschinenbaufabrik Sachsens.' },
+  { q:'Was bedeutet "Pauperismus"?', opts:['Stadtflucht','Massenarmut','Massenproduktion','Urbanisierung'], correct:1, expl:'Pauperismus = Massenarmut, eine zentrale soziale Folge der Industrialisierung.' },
+  { q:'Welche Schutzmaßnahme half Sachsens Textilindustrie in ihrer Frühphase?', opts:['Zollverein','Kontinentalsperre','Reichsgründung','Aktiengesellschaften'], correct:1, expl:'Napoleons Kontinentalsperre (1807–1813) schützte sächsische Produkte vor englischer Konkurrenz.' },
+  { q:'Was bewirkte der Eisenbahnbau 1893 in Deutschland?', opts:['Einführung des Euro-Vorläufers','Einheitliche Zeit','Aufhebung des Zollvereins','Gründung der Reichsbank'], correct:1, expl:'1893 wurde durch den Eisenbahnbau eine gemeinsame (einheitliche) Zeit in Deutschland festgelegt.' },
+  { q:'Welches neue Fahrzeug ist mit Carl Benz verbunden?', opts:['Dampflokomotive','Fahrrad','Automobil','Zeppelin'], correct:2, expl:'Carl Benz ist Pionier des Automobilbaus mit Benzinmotor.' },
+  { q:'Was kennzeichnet Deutschlands Industrialisierung gegenüber England?', opts:['Später, aber dynamischer und komprimierter','Früher und schneller','Gleichzeitig, aber in anderer Reihenfolge','Später und auch langsamer'], correct:0, expl:'Deutschland industrialisierte sich als zweite Generation – später, dafür dynamischer und komprimierter.' },
+  { q:'Welche erste Fabrik wurde 1800 in Harthau gegründet?', opts:['Chemiefabrik','Papierfabrik','Erste sächsische Spinnereifabrik','Maschinenfabrik'], correct:2, expl:'1800 wurde in Harthau die erste sächsische Spinnereifabrik gegründet.' },
+  { q:'Was entstand als staatliche Zentralbank in der Hochindustrialisierung?', opts:['Sparkasse','Volksbank','Reichsbank','Dresdner Bank'], correct:2, expl:'Die Reichsbank entstand als staatliche Zentralbank in der Phase der Hochindustrialisierung.' },
+  { q:'Welcher Vorteil der Fließbandarbeit ist KEIN Vorteil?', opts:['Massenproduktion','Eintönige Arbeit','Günstigere Produkte','Gleichbleibende Qualität'], correct:1, expl:'Eintönige Arbeit ist ein Nachteil der Fließbandarbeit, kein Vorteil.' },
+  { q:'Was bedeutet Urbanisierung im Kontext der Industrialisierung?', opts:['Landwirtschaft in Städten','Verstädterung und Ausbildung städtischer Lebensweisen','Gründung neuer Fabriken','Ausbau von Eisenbahnstrecken'], correct:1, expl:'Urbanisierung = Verstädterung und Ausbildung städtischer Lebensweisen durch Binnenwanderung vom Land in die Stadt.' },
+];
+
+const GLOSSAR_DATA = [
+  { term:'Schrittmacherindustrie', def:'Leitbranche, die andere Industrien durch Nachfrageeffekte antreibt. In Phase 1: der Eisenbahnbau.', cat:'Phase 1' },
+  { term:'Zollverein', def:'1834 gegründetes Freihandelsbündnis deutscher Staaten – beseitigte Zollgrenzen und begünstigte den Eisenbahnbau sowie wirtschaftliches Wachstum.', cat:'Phase 1' },
+  { term:'Aktiengesellschaft', def:'Unternehmensform, die Kapital durch Ausgabe von Aktien beschafft. Entscheidend für die Finanzierung des kostenintensiven Eisenbahnbaus.', cat:'Wirtschaft' },
+  { term:'Hochindustrialisierung', def:'Zweite Phase der dt. Industrialisierung 1871–1914. Kennzeichen: neue Technologien (Chemie, Elektro, Motor), staatliche Einheit, massiver Kapital- und Arbeitskräfteeinsatz.', cat:'Phase 2' },
+  { term:'Kontinentalsperre', def:'1807–1813 von Napoleon verhängte Blockade britischer Waren in Europa. Schützte sächsische und dt. Industrie vor überlegener englischer Konkurrenz.', cat:'Sachsen' },
+  { term:'Pauperismus', def:'Massenarmut als soziale Folge der Industrialisierung. Trotz Arbeit: Hunger, kaum Wohnraum, keine medizinische Versorgung, schlechte Hygiene.', cat:'Folgen' },
+  { term:'Urbanisierung', def:'Verstädterung und Ausbildung städtischer Lebensweisen. Binnenwanderung Land → Stadt durch Fabrikarbeit. Ergebnis: 48 Großstädte vor WK I, Berlin als Millionenstadt.', cat:'Folgen' },
+  { term:'Landflucht', def:'Massenabwanderung der Landbevölkerung in die Städte. Ursache: Hoffnung auf bessere Arbeit und Leben in der Fabrikstadt.', cat:'Folgen' },
+  { term:'Reichsbank', def:'Staatliche Zentralbank, die in der Hochindustrialisierung entstand. Regulierte die Geldversorgung und stabilisierte das Finanzsystem.', cat:'Wirtschaft' },
+  { term:'Sächsisches Manchester', def:'Beiname für Chemnitz – wie das englische Manchester war es das industrielle Zentrum der Region mit Textil- und Maschinenproduktion, dichter Fabrikkonzentration und explosivem Bevölkerungswachstum.', cat:'Sachsen' },
+  { term:'Protoindustrialisierung', def:'Vorstufe der Industrialisierung: Heimgewerbe, Verleger, Handwerker – dezentrale Produktion. Legte Grundlage für spätere Fabrikindustrie in Sachsen.', cat:'Sachsen' },
+  { term:'Fließbandarbeit', def:'Produktionsform, bei der jeder Arbeiter nur einen spezialisierten Schritt ausführt. Vorteile: Effizienz, Massenproduktion. Nachteile: Eintönigkeit, Stressigkeit, Gefahr.', cat:'Produktion' },
+  { term:'Reichsgründung 1871', def:'Gründung des Deutschen Kaiserreichs nach dem Sieg über Frankreich. Schuf staatliche Einheit als Voraussetzung für die Hochindustrialisierung.', cat:'Phase 2' },
+  { term:'Pilotbranche', def:'Erste führende Branche in einem Industrialisierungsprozess, die andere Bereiche mitzieht. In Sachsen: Textilindustrie. In Deutschland gesamt: Eisenbahn/Stahl.', cat:'Allgemein' },
+];
+
+const CHECKLIST = [
+  { group:'Phase 1 – Eisenbahn & Grundlagen', items:[
+    'Erste Strecke 1835 Nürnberg–Fürth kennen',
+    'Rolle des Zollvereins 1834 erklären können',
+    'Eisenbahn als Schrittmacherindustrie erläutern',
+    'Finanzierung durch Aktiengesellschaften & Kredite',
+    'Folgewirkungen auf Maschinenbau und Stahlindustrie',
+    'Einheitliche Zeit 1893 durch Eisenbahn',
+  ]},
+  { group:'Phase 2 – Hochindustrialisierung', items:[
+    'Auslöser: Reichsgründung 1871',
+    'Deutsch-Französischer Krieg: 5 Mrd. Francs + Elsass-Lothringen',
+    'Chemieindustrie: Farben, Pharmazie, Explosivstoffe',
+    'Elektroindustrie: Glühbirne, Telefon, Telegraf',
+    'Fortbewegung: Verbrennungsmotor, Carl Benz',
+    'Reichsbank und Großbanken als Finanzinstitutionen',
+  ]},
+  { group:'Sachsen als Pionierland', items:[
+    '6+ Gründe für Sachsens Vorreiterrolle benennen',
+    'Textilindustrie als Pilotbranche erklären',
+    'Kontinentalsperre 1807–1813 und ihre Bedeutung',
+    'Wichtige Stationen des Zeitstrahls kennen (1799–1848)',
+    'Chemnitz als "Sächsisches Manchester" vergleichen',
+    'Richard Hartmann und seine Fabrik (1837)',
+  ]},
+  { group:'Fließbandarbeit', items:[
+    'Mindestens 5 Vorteile nennen können',
+    'Mindestens 5 Nachteile nennen können',
+  ]},
+  { group:'Folgen der Industrialisierung', items:[
+    'Urbanisierung definieren und erläutern',
+    'Bevölkerungsent. Städte: vor 1871 vs. vor WK I',
+    'Pauperismus erklären',
+    'Arbeitsbedingungen in der Fabrik beschreiben',
+    'Lebensbedingungen in der Industriestadt beschreiben',
+    'Landflucht als Begriff und Ursache erklären',
+  ]},
+];
+
+// ═══════════════════ TAB LOGIC ═══════════════════
+function toggleSection(header) {
+  header.parentElement.classList.toggle('collapsed');
+}
+
+function showTab(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if(name === 'karteikarten') initCards();
+  if(name === 'quiz') initQuiz();
+  if(name === 'glossar') renderGlossar('');
+  if(name === 'checkliste') renderChecklist();
+}
+
+// ═══════════════════ KARTEIKARTEN ═══════════════════
+let currentFilter = 'alle';
+let filteredCards = [];
+let currentCardIdx = 0;
+
+function filterCards(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.kk-filter').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  filteredCards = cat === 'alle' ? [...CARDS] : CARDS.filter(c => c.cat === cat);
+  currentCardIdx = 0;
+  showCard();
+}
+
+function initCards() {
+  filteredCards = [...CARDS];
+  currentCardIdx = 0;
+  showCard();
+}
+
+function showCard() {
+  if(!filteredCards.length) return;
+  const card = filteredCards[currentCardIdx];
+  document.getElementById('cardQ').textContent = card.q;
+  document.getElementById('cardA').textContent = card.a;
+  const catLabels = { phase1:'Phase 1', phase2:'Phase 2', sachsen:'Sachsen', folgen:'Folgen' };
+  document.getElementById('cardCat').textContent = catLabels[card.cat] || 'Frage';
+  document.getElementById('cardCounter').textContent = (currentCardIdx+1) + ' / ' + filteredCards.length;
+  document.getElementById('cardInner').classList.remove('flipped');
+}
+
+function flipCard() { document.getElementById('cardInner').classList.toggle('flipped'); }
+function nextCard() { currentCardIdx = (currentCardIdx+1) % filteredCards.length; showCard(); }
+function prevCard() { currentCardIdx = (currentCardIdx - 1 + filteredCards.length) % filteredCards.length; showCard(); }
+
+// ═══════════════════ QUIZ ═══════════════════
+let quizIdx = 0;
+let quizScore = 0;
+let quizAnswered = false;
+let quizOrder = [];
+
+function initQuiz() {
+  quizOrder = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5);
+  quizIdx = 0; quizScore = 0;
+  document.getElementById('quizScore').classList.remove('show');
+  document.getElementById('quizContent').style.display = '';
+  renderQuestion();
+}
+
+function startQuiz() {
+  quizOrder = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5);
+  quizIdx = 0; quizScore = 0;
+  document.getElementById('quizScore').classList.remove('show');
+  document.getElementById('quizContent').style.display = '';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quizOrder[quizIdx];
+  const total = quizOrder.length;
+  document.getElementById('quizProgress').style.width = ((quizIdx/total)*100) + '%';
+  document.getElementById('quizQNum').textContent = 'Frage ' + (quizIdx+1) + ' von ' + total;
+  document.getElementById('quizQuestion').textContent = q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = o;
+    btn.onclick = () => answer(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').classList.remove('show','correct','wrong');
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizNextBtn').classList.remove('show');
+  quizAnswered = false;
+}
+
+function answer(i) {
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const q = quizOrder[quizIdx];
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach((b, idx) => {
+    b.disabled = true;
+    if(idx === q.correct) b.classList.add('correct');
+    else if(idx === i) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('quizFeedback');
+  if(i === q.correct) {
+    quizScore++;
+    fb.textContent = '✓ Richtig! ' + q.expl;
+    fb.className = 'quiz-feedback show correct';
+  } else {
+    fb.textContent = '✗ Falsch. ' + q.expl;
+    fb.className = 'quiz-feedback show wrong';
+  }
+  document.getElementById('quizNextBtn').classList.add('show');
+}
+
+function nextQuestion() {
+  quizIdx++;
+  if(quizIdx >= quizOrder.length) {
+    document.getElementById('quizContent').style.display = 'none';
+    const s = document.getElementById('quizScore');
+    s.classList.add('show');
+    document.getElementById('scoreNum').textContent = quizScore + '/' + quizOrder.length;
+    const pct = quizScore / quizOrder.length;
+    let msg = pct === 1 ? '🏆 Perfekt! Volle Punktzahl!' : pct >= 0.8 ? '🔥 Stark! 15NP sind drin!' : pct >= 0.6 ? '👍 Gut – noch etwas wiederholen.' : '📚 Nochmal lernen – du schaffst das!';
+    document.getElementById('scoreMsg').textContent = msg;
+  } else {
+    renderQuestion();
+  }
+}
+
+// ═══════════════════ GLOSSAR ═══════════════════
+function renderGlossar(search) {
+  const list = document.getElementById('glossarList');
+  const filtered = GLOSSAR_DATA.filter(g =>
+    g.term.toLowerCase().includes(search.toLowerCase()) ||
+    g.def.toLowerCase().includes(search.toLowerCase())
+  );
+  list.innerHTML = filtered.map(g => `
+    <div class="glossar-item">
+      <div class="g-term">${g.term} <span class="g-cat">${g.cat}</span></div>
+      <div class="g-def">${g.def}</div>
+    </div>
+  `).join('');
+}
+function filterGlossar(val) { renderGlossar(val); }
+
+// ═══════════════════ CHECKLISTE ═══════════════════
+function getCheckState() {
+  try { return JSON.parse(localStorage.getItem('check_industrie') || '{}'); } catch { return {}; }
+}
+function saveCheckState(state) {
+  try { localStorage.setItem('check_industrie', JSON.stringify(state)); } catch {}
+}
+
+function renderChecklist() {
+  const state = getCheckState();
+  const content = document.getElementById('checklistContent');
+  let total = 0, done = 0;
+  CHECKLIST.forEach(g => { total += g.items.length; g.items.forEach(item => { if(state[item]) done++; }); });
+  
+  document.getElementById('cpNum').textContent = done + '/' + total;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById('cpFill').style.width = pct + '%';
+  const labels = ['Los geht\'s! 💪', 'Schön warm! 🔥', 'Auf dem Weg! 🚂', 'Mehr als die Hälfte! ⚡', 'Fast geschafft! 🎯', 'Bereit für 15NP! 🏆'];
+  document.getElementById('cpLabel').textContent = labels[Math.min(5, Math.floor(pct/20))];
+
+  content.innerHTML = CHECKLIST.map(g => `
+    <div class="check-group">
+      <div class="check-group-title">${g.group}</div>
+      ${g.items.map(item => `
+        <div class="check-item ${state[item] ? 'done' : ''}" onclick="toggleCheck('${encodeURIComponent(item)}')">
+          <div class="check-box">${state[item] ? '✓' : ''}</div>
+          <div class="check-text">${item}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function toggleCheck(encodedItem) {
+  const item = decodeURIComponent(encodedItem);
+  const state = getCheckState();
+  state[item] = !state[item];
+  saveCheckState(state);
+  renderChecklist();
+}
+
+function resetChecklist() {
+  if(confirm('Alle Häkchen zurücksetzen?')) { saveCheckState({}); renderChecklist(); }
+}
+
+// ═══════════════════ INIT ═══════════════════
+initCards();
+</script>
+</body>
+</html>
