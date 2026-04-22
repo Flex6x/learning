@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Der Sandmann – ETA Hoffmann</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0b0e;
+    --surface: #151217;
+    --surface2: #1e1a22;
+    --border: #2e2835;
+    --accent: #c9a84c;
+    --accent2: #8b5cf6;
+    --red: #c0392b;
+    --text: #e8dfc8;
+    --text-muted: #9a8fa0;
+    --glow: rgba(201,168,76,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.1) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .eyeball {
+    font-size: 2.5rem;
+    animation: pulse 3s ease-in-out infinite;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  @keyframes pulse {
+    0%,100%{ transform:scale(1); opacity:1; }
+    50%{ transform:scale(1.08); opacity:0.7; }
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-shadow: 0 0 40px rgba(201,168,76,0.4);
+  }
+  header h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    letter-spacing: 0.08em;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 1rem;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.25rem 1rem;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── TABS ── */
+  .tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 1rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    padding: 0.85rem 1.6rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.25s;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .tab-btn::after {
+    content:'';
+    position:absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.25s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  .tab-panel { display: none; padding: 2.5rem 1rem 4rem; max-width: 860px; margin: 0 auto; }
+  .tab-panel.active { display: block; animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title:first-of-type { margin-top: 0; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content:'';
+    position:absolute;
+    left: 0.6rem; top:0; bottom:0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tl-item:hover { border-color: var(--accent); transform: translateX(3px); }
+  .tl-item::before {
+    content:'';
+    position:absolute;
+    left: -1.65rem; top: 1.1rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .tl-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--glow);
+  }
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--accent);
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+  .card .role {
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── INTERPRET BLOCKS ── */
+  .interpret-block {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+  .interpret-block h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--accent);
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+  }
+  .vs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.8rem;
+  }
+  .vs-box {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .vs-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+  .vs-box.aufkl h4 { color: #60a5fa; }
+  .vs-box.rom h4 { color: #f472b6; }
+
+  /* ── DETAILS TABLE ── */
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .detail-table th {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    color: var(--accent);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .detail-table td {
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .detail-table tr:hover td { background: var(--surface); }
+  .tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.8rem;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  /* ── SYMBOLS LIST ── */
+  .symbol-list { list-style: none; }
+  .symbol-list li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .symbol-list li:last-child { border-bottom: none; }
+  .symbol-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+  /* ── QUIZ ── */
+  .quiz-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-label { color: var(--text-muted); font-size: 0.9rem; white-space: nowrap; }
+
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .question-card.hidden { display: none; }
+  .q-number {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+  }
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .option-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: rgba(201,168,76,0.07);
+  }
+  .option-btn.correct {
+    border-color: #22c55e;
+    background: rgba(34,197,94,0.12);
+    color: #86efac;
+  }
+  .option-btn.wrong {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.12);
+    color: #fca5a5;
+  }
+  .option-btn:disabled { cursor: default; }
+  .option-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+  .feedback {
+    margin-top: 0.8rem;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(34,197,94,0.1); color: #86efac; border-left: 3px solid #22c55e; }
+  .feedback.wrong-fb { background: rgba(192,57,43,0.1); color: #fca5a5; border-left: 3px solid var(--red); }
+
+  .quiz-nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+  .btn {
+    background: var(--accent);
+    color: #0d0b0e;
+    border: none;
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+  .btn.outline {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .result-box {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: none;
+  }
+  .result-box.show { display: block; }
+  .result-emoji { font-size: 3rem; margin-bottom: 1rem; }
+  .result-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--accent);
+  }
+  .result-msg {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  /* ── MISC ── */
+  p { margin-bottom: 0.8rem; }
+  strong { color: var(--accent); font-weight: 600; }
+  em { color: var(--text-muted); }
+
+  @media(max-width:600px) {
+    .vs-grid { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .tab-btn { padding: 0.7rem 1rem; font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyeball">👁</div>
+  <h1>Der Sandmann</h1>
+  <h2>E.T.A. Hoffmann · Lernübersicht</h2>
+  <div class="badge">Prüfungsvorbereitung</div>
+</header>
+
+<nav class="tabs-nav">
+  <button class="tab-btn active" onclick="switchTab('handlung')">📖 Handlung</button>
+  <button class="tab-btn" onclick="switchTab('experten')">🔍 Expertenwissen</button>
+  <button class="tab-btn" onclick="switchTab('details')">📋 Details</button>
+  <button class="tab-btn" onclick="switchTab('quiz')">✏️ Quiz</button>
+</nav>
+
+<!-- ═══════════════════════════ HANDLUNG ═══════════════════════════ -->
+<div id="tab-handlung" class="tab-panel active">
+  <div class="section-title">⏳ Chronologischer Ablauf</div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <h3>1. Kindheitstrauma</h3>
+      <p>Nathanael assoziiert den Advokaten <strong>Coppelius</strong> mit dem „Sandmann". Bei geheimen alchemistischen Experimenten mit seinem Vater stirbt dieser durch eine <strong>Explosion</strong>. Coppelius flieht.</p>
+      <p><em>Detail:</em> Der Sandmann kommt immer um <strong>neun Uhr abends</strong>. Nathanael versteckt sich hinter der Gardine. Coppelius ruft: <em>„Augen her, Augen her!"</em></p>
+    </div>
+
+    <div class="tl-item">
+      <h3>2. Der Briefwechsel</h3>
+      <p>Nathanael glaubt im Wetterglashändler <strong>Coppola</strong> den alten Coppelius wiederzuerkennen. Er schreibt an Lothar, schickt den Brief aber versehentlich an seine Verlobte <strong>Clara</strong>.</p>
+      <p><em>Drei Briefe:</em> Nathanael → Lothar (Trauma) | Clara → Nathanael (psychologische Deutung: „Phantom des eigenen Ichs") | Nathanael → Lothar (kündigt Besuch an)</p>
+    </div>
+
+    <div class="tl-item">
+      <h3>3. Der Konflikt mit Clara</h3>
+      <p>Clara versucht Nathanaels Ängste rational zu erklären – der Wahnsinn sei nur in seinem Kopf. Nathanael nennt sie daraufhin ein <strong>„lebloses Automatenbild"</strong>.</p>
+    </div>
+
+    <div class="tl-item">
+      <h3>4. Olimpia – Die künstliche Frau</h3>
+      <p>Zurück in G. verliebt sich Nathanael in die vermeintliche Tochter seines Professors <strong>Spalanzani</strong>. Er beobachtet sie stundenlang durch das <strong>Perspektiv</strong> (Taschenfernrohr), das er Coppola für <strong>30 Taler</strong> abgekauft hat.</p>
+      <p>Olimpia spielt Klavier, singt und tanzt – aber ihre Stimme klingt „glashaft", ihre Bewegungen sind starr. Sie sagt nur <strong>„Ach, ach!"</strong>. Nathanaels Freund Siegmund warnt ihn: sie sei ein <em>„Puppengesicht"</em>.</p>
+    </div>
+
+    <div class="tl-item">
+      <h3>5. Die Eskalation – Die Puppe wird entlarvt</h3>
+      <p>Nathanael will Olimpia einen Antrag machen, stört dabei aber einen Streit zwischen Spalanzani und Coppola: Sie zerren an Olimpia – sie ist eine <strong>Puppe aus Holz, Federn und Uhrwerk</strong>. Ihre Glasaugen liegen am Boden. Nathanael dreht durch.</p>
+      <p><em>Konsequenz:</em> Spalanzani muss die Universität verlassen.</p>
+    </div>
+
+    <div class="tl-item">
+      <h3>6. Scheinbare Heilung</h3>
+      <p>Nach einem <strong>Psychiatrieaufenthalt</strong> scheint Nathanael geheilt. Er und Clara sind glücklich.</p>
+    </div>
+
+    <div class="tl-item">
+      <h3>7. Das Ende auf dem Ratsturm</h3>
+      <p>Nathanael geht mit Clara auf einen <strong>Ratsturm</strong>. Er greift in die Tasche, findet das Perspektiv von Coppola und schaut hindurch. Sein Wahn erwacht: Er schreit <em>„Holzpüppchen dreh dich!"</em> und versucht, Clara vom Turm zu werfen. <strong>Lothar</strong> rettet sie im letzten Moment.</p>
+      <p>Unten steht <strong>Coppelius</strong>, der höhnisch sagt: <em>„Ha ha, wartet nur, der kommt schon von selbst herunter."</em></p>
+      <p>Nathanaels letzte Worte: <strong>„Sköne Oke – sköne Oke!"</strong> – er stürzt sich in den Tod.</p>
+    </div>
+
+    <div class="tl-item">
+      <h3>8. Schlussbild</h3>
+      <p>Clara wird Jahre später mit einem <strong>„freundlichen Mann"</strong> und zwei Kindern gesehen – bürgerliches Glück, das Nathanael nie erreichen konnte.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════ EXPERTEN ═══════════════════════════ -->
+<div id="tab-experten" class="tab-panel">
+  <div class="section-title">👁 A. Das Augen-Motiv</div>
+  <div class="interpret-block">
+    <h3>Das wichtigste Symbol im Werk</h3>
+    <p>Die Augen stehen für die <strong>Seele</strong> und die <strong>Wahrnehmung der Realität</strong>.</p>
+    <ul style="margin-left:1.2rem; margin-top:0.5rem;">
+      <li style="margin-bottom:0.4rem;"><strong>Sandmann-Mythos:</strong> Der Sandmann raubt Kindern die Augen, um sie seinen eigenen Kindern im Mond zu verfüttern.</li>
+      <li style="margin-bottom:0.4rem;"><strong>Das Perspektiv:</strong> Durch das Glas von Coppola sieht Nathanael die Welt verzerrt. Olimpia erscheint ihm erst durch das Glas lebendig – ohne es sieht er sie als leblos.</li>
+      <li style="margin-bottom:0.4rem;"><strong>Olimpias Glasaugen:</strong> Tote Glasaugen vs. lebendige Seele – das zentrale Paradox der Erzählung.</li>
+      <li><strong>Coppelius' Ausruf:</strong> „Augen her, Augen her!" – Rauben der Wahrnehmung = Rauben der Realität.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">⚖️ B. Aufklärung vs. Romantik</div>
+  <div class="interpret-block">
+    <div class="vs-grid">
+      <div class="vs-box aufkl">
+        <h4>🌞 Clara = Aufklärung</h4>
+        <p style="font-size:0.93rem;">Alles ist logisch erklärbar. Wahnsinn ist eine psychische Krankheit. Sie deutet Nathanaels Erlebnisse als „Phantom des eigenen Ichs".</p>
+      </div>
+      <div class="vs-box rom">
+        <h4>🌒 Nathanael = Romantik</h4>
+        <p style="font-size:0.93rem;">Es gibt dunkle Mächte. Das Schicksal ist vorbestimmt. Gefühle stehen über der Logik. Er kann Innenwelt (Wahn) nicht von Außenwelt (Realität) trennen.</p>
+      </div>
+    </div>
+    <p style="margin-top:1rem;"><strong>Das Problem:</strong> Nathanael scheitert, weil er seine Innenwelt (Wahn) nicht mehr von der Außenwelt (Realität) unterscheiden kann. Die Romantik „gewinnt" – aber zerstört den Menschen.</p>
+  </div>
+
+  <div class="section-title">😰 C. Das Unheimliche (nach Freud)</div>
+  <div class="interpret-block">
+    <h3>Zentrales Konzept für die Interpretation</h3>
+    <p>Das Unheimliche entsteht nicht durch das völlig <em>Fremde</em>, sondern durch das <strong>Vertraute, das plötzlich fremd oder bedrohlich wird</strong>.</p>
+    <p style="margin-top:0.6rem;">Beispiele im Text:</p>
+    <ul style="margin-left:1.2rem; margin-top:0.3rem;">
+      <li style="margin-bottom:0.4rem;">Eine <strong>Puppe</strong>, die fast wie ein Mensch aussieht (Olimpia).</li>
+      <li style="margin-bottom:0.4rem;">Der <strong>vertraute Händler</strong> (Coppola), der plötzlich als alte Bedrohung (Coppelius) erscheint.</li>
+      <li><strong>Das eigene Zuhause</strong> als Ort des väterlichen Todes.</li>
+    </ul>
+    <p style="margin-top:0.8rem; background: var(--surface2); padding:0.8rem; border-radius:6px; font-style:italic; font-size:0.95rem;">Freud argumentiert, dass Hoffmanns Sandmann das Unheimliche durch die Kastrationsangst (Augenrauben als Symbol) erklärt – ein oft zitierter Interpretationsansatz für das Abitur.</p>
+  </div>
+
+  <div class="section-title">🔗 Verknüpfung für die Prüfung</div>
+  <div class="interpret-block">
+    <p>Die drei Aspekte lassen sich so verbinden: <strong>Das Augen-Motiv</strong> symbolisiert die Unfähigkeit, Realität und Wahn zu trennen (→ <strong>Romantik vs. Aufklärung</strong>). Das Vertraute (Augen, Puppe) wird fremd (→ <strong>das Unheimliche</strong>). Nathanaels Untergang ist die direkte Konsequenz seiner romantischen Weltsicht, die durch das Perspektiv (Coppolas Glas) systematisch verzerrt wird.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ DETAILS ═══════════════════════════ -->
+<div id="tab-details" class="tab-panel">
+
+  <div class="section-title">👥 Personen</div>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Nathanael</h3>
+      <div class="role">Protagonist / Student & Dichter</div>
+      <p style="font-size:0.93rem;">Name = „Gottesgeschenk". Traumatisiert durch Kindheitserlebnisse. Kann Wahn und Realität nicht trennen.</p>
+    </div>
+    <div class="card">
+      <h3>Clara</h3>
+      <div class="role">Verlobte Nathanaels</div>
+      <p style="font-size:0.93rem;">„Die Helle" – rational, repräsentiert die Aufklärung. Deutet alles psychologisch. Überlebt und findet bürgerliches Glück.</p>
+    </div>
+    <div class="card">
+      <h3>Lothar</h3>
+      <div class="role">Claras Bruder / Nathanaels Freund</div>
+      <p style="font-size:0.93rem;">Rettet Clara auf dem Turm. Vernünftige Nebenfigur.</p>
+    </div>
+    <div class="card">
+      <h3>Coppelius</h3>
+      <div class="role">Advokat / „Sandmann"</div>
+      <p style="font-size:0.93rem;">Hässlich, groß, böse. Führt alchemistische Experimente durch. Erscheint am Ende als Zuschauer von Nathanaels Tod.</p>
+    </div>
+    <div class="card">
+      <h3>Coppola</h3>
+      <div class="role">Wetterglashändler / Italiener</div>
+      <p style="font-size:0.93rem;">Verkauft „<em>Sköne Oke</em>" (Perspektive). Nathanael kauft das Taschenperspektiv für 30 Taler. Möglicherweise Coppelius selbst.</p>
+    </div>
+    <div class="card">
+      <h3>Olimpia</h3>
+      <div class="role">Automat / Puppe</div>
+      <p style="font-size:0.93rem;">Aus Holz, Federn, Uhrwerk, Glasaugen. Sagt nur „Ach, ach!". Spielt Klavier, singt, tanzt – aber kalt und starr.</p>
+    </div>
+    <div class="card">
+      <h3>Spalanzani</h3>
+      <div class="role">Professor / „Vater" Olimpias</div>
+      <p style="font-size:0.93rem;">Alchemist/Physiker. Hat Olimpia konstruiert. Muss Uni verlassen, weil er die Gesellschaft mit einer Puppe betrogen hat.</p>
+    </div>
+    <div class="card">
+      <h3>Siegmund</h3>
+      <div class="role">Nathanaels Uni-Freund</div>
+      <p style="font-size:0.93rem;">Warnt Nathanael vor Olimpia: „Sie hat uns für ein Puppengesicht gegolten." Stimme der Vernunft.</p>
+    </div>
+  </div>
+
+  <div class="section-title">📌 Prüfungsrelevante Schlüssel-Details</div>
+  <table class="detail-table">
+    <thead><tr><th>Thema</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td>Olimpias Material</td><td>Holz, Federn, Uhrwerk, <strong>Glasaugen</strong></td></tr>
+      <tr><td>Olimpias Sprache</td><td>Nur <strong>„Ach, ach!"</strong></td></tr>
+      <tr><td>Olimpias Talente</td><td>Klavier, Singen, Tanzen – taktfest aber <strong>starr</strong></td></tr>
+      <tr><td>Das Perspektiv</td><td>Gekauft für <strong>30 Taler</strong> von Coppola</td></tr>
+      <tr><td>Tod des Vaters</td><td>Explosion bei alchemistischen Versuchen mit Coppelius</td></tr>
+      <tr><td>Nathanaels Gedicht</td><td>Über Coppelius, der seine Hochzeitsfreude zerstört</td></tr>
+      <tr><td>Der Turm</td><td><strong>Ratsturm</strong> – Ort von Nathanaels Tod</td></tr>
+      <tr><td>Erste Sichtung Olimpias</td><td>Durch Glastür, starr an Tisch, Hände gefaltet, Kerze davor</td></tr>
+      <tr><td>Körpertemperatur</td><td>Olimpias Hand ist <strong>eiskalt</strong></td></tr>
+      <tr><td>Sandmann-Uhrzeit</td><td>Immer um <strong>neun Uhr abends</strong></td></tr>
+      <tr><td>Versteck Nathanaels</td><td>Hinter der <strong>Gardine</strong> im Arbeitszimmer</td></tr>
+      <tr><td>Letzte Worte</td><td><strong>„Sköne Oke – sköne Oke!"</strong></td></tr>
+      <tr><td>Schlussbild Clara</td><td>Mit „freundlichem Mann" und zwei Kindern – <strong>bürgerliches Glück</strong></td></tr>
+      <tr><td>Studienort</td><td><strong>G.</strong> (Gießen oder Göttingen)</td></tr>
+      <tr><td>Spalanzanis Strafe</td><td>Muss Universität verlassen</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">🔣 Motive & Symbole</div>
+  <ul class="symbol-list">
+    <li><span class="symbol-icon">👁</span><div><strong>Augen</strong> – Spiegel der Seele vs. tote Glasaugen. Zentrales Symbol für Wahrnehmung und Realität.</div></li>
+    <li><span class="symbol-icon">😴</span><div><strong>Sandmann</strong> – Mythische Figur, raubt Kindern die Augen (Sand in die Augen streuen). Personifikation des Bösen/Traumas.</div></li>
+    <li><span class="symbol-icon">🔥</span><div><strong>Feuer / Glut</strong> – Symbol für Wahnsinn und Zerstörung (Explosion, Kerzen).</div></li>
+    <li><span class="symbol-icon">🤖</span><div><strong>Automaten</strong> – Olimpia als Kritik an der seelenlosen Gesellschaft. Wer ist wirklich ein Automat?</div></li>
+    <li><span class="symbol-icon">😆</span><div><strong>Lachen</strong> – Coppelius' hämisches Lachen als Zeichen des Bösen und der Kontrolle.</div></li>
+    <li><span class="symbol-icon">🔭</span><div><strong>Das Perspektiv</strong> – Verzerrt die Wahrnehmung. Durch Coppolas Glas erscheint das Leblose lebendig.</div></li>
+  </ul>
+
+  <div class="section-title">📝 Die drei Briefe (Anfang)</div>
+  <table class="detail-table">
+    <thead><tr><th>Brief</th><th>Von → An</th><th>Inhalt</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag">1. Brief</span></td><td>Nathanael → Lothar</td><td>Kindheitstrauma mit Coppelius; Coppola als mögliche Wiedergeburt</td></tr>
+      <tr><td><span class="tag">2. Brief</span></td><td>Clara → Nathanael</td><td>Psychologische Deutung: „Phantom des eigenen Ichs"; vernünftige Erklärung</td></tr>
+      <tr><td><span class="tag">3. Brief</span></td><td>Nathanael → Lothar</td><td>Genervt von Clara; kündigt Besuch an; erwähnt Spalanzani kommt aus Italien</td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ═══════════════════════════ QUIZ ═══════════════════════════ -->
+<div id="tab-quiz" class="tab-panel">
+  <div class="quiz-progress">
+    <span class="progress-label" id="q-counter">Frage 1 / 15</span>
+    <div class="progress-bar"><div class="progress-fill" id="q-progress"></div></div>
+    <span class="progress-label" id="q-score-live">0 / 0</span>
+  </div>
+
+  <div id="quiz-area"></div>
+  <div class="quiz-nav">
+    <button class="btn outline" id="btn-restart" onclick="restartQuiz()" style="display:none">↺ Neu starten</button>
+    <button class="btn" id="btn-next" onclick="nextQuestion()" disabled>Weiter →</button>
+  </div>
+  <div class="result-box" id="result-box">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <div class="result-score" id="result-score">0/15</div>
+    <div class="result-msg" id="result-msg">Ergebnis</div>
+    <button class="btn" onclick="restartQuiz()" style="margin-top:1.5rem;">↺ Quiz wiederholen</button>
+  </div>
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── QUIZ DATA ──
+const questions = [
+  {
+    q: "Wer ist Nathanael und was bedeutet sein Name?",
+    opts: ["Ein Advokat; bedeutet 'Gottesgeschenk'","Ein Student und Dichter; bedeutet 'Gottesgeschenk'","Ein Professor; bedeutet 'Licht des Mondes'","Ein Soldat; bedeutet 'Freier Mann'"],
+    a: 1,
+    fb: "Nathanael ist Student und Dichter. Sein Name bedeutet 'Gottesgeschenk'."
+  },
+  {
+    q: "Um wie viel Uhr kam der Sandmann immer zu Nathanaels Vater?",
+    opts: ["Um Mitternacht","Um sieben Uhr abends","Um neun Uhr abends","Um zehn Uhr morgens"],
+    a: 2,
+    fb: "Der Sandmann kam immer um neun Uhr abends – das Geräusch des schweren, polternden Tritts auf der Treppe."
+  },
+  {
+    q: "Was sagt Coppelius in der entscheidenden Szene beim alchemistischen Experiment?",
+    opts: ["'Holzpüppchen dreh dich!'","'Augen her, Augen her!'","'Sköne Oke, sköne Oke!'","'Der kommt schon von selbst herunter!'"],
+    a: 1,
+    fb: "Coppelius ruft 'Augen her, Augen her!' und will Nathanael die Augen ausreißen. Der Vater fleht ihn an, sie ihm zu lassen."
+  },
+  {
+    q: "Was verkauft Coppola und wie lautet sein Werbeslogan?",
+    opts: ["Er verkauft Barometer; 'Gute Messung!'","Er verkauft Fernrohre; 'Sköne Oke' (schöne Augen)","Er verkauft Uhren; 'Tick tack, kauft das!'","Er verkauft Gemälde; 'Schöne Bilder!'"],
+    a: 1,
+    fb: "Coppola ist Wetterglashändler und ruft 'Sköne Oke' – was auf Deutsch 'schöne Augen/Brillen' bedeutet."
+  },
+  {
+    q: "Für wie viel Taler kauft Nathanael das Taschenperspektiv von Coppola?",
+    opts: ["10 Taler","20 Taler","30 Taler","50 Taler"],
+    a: 2,
+    fb: "Nathanael kauft das Taschenperspektiv für genau 30 Taler von Coppola."
+  },
+  {
+    q: "Was ist Olimpia wirklich?",
+    opts: ["Eine echte Frau mit einer Behinderung","Eine Puppe aus Holz, Federn, Uhrwerk und Glasaugen","Eine Geistererscheinung aus Nathanaels Kindheit","Eine Studentin, die Nathanael eingebildet hat"],
+    a: 1,
+    fb: "Olimpia ist ein Automat – eine künstliche Puppe aus Holz, Federn, Uhrwerk und Glasaugen, gemeinsam erschaffen von Spalanzani und Coppola."
+  },
+  {
+    q: "Was sagt Olimpia die ganze Zeit?",
+    opts: ["'Ja, ja!'","'Oh, oh!'","'Ach, ach!'","Sie sagt gar nichts"],
+    a: 2,
+    fb: "Olimpias einzige Äußerung ist 'Ach, ach!' – ein weiterer Hinweis darauf, dass sie kein echtes Bewusstsein hat."
+  },
+  {
+    q: "Welche Figur steht für die Aufklärung und wie heißt sie?",
+    opts: ["Nathanael – er glaubt an Wissenschaft","Clara – sie ist rational und erklärt alles logisch","Spalanzani – er ist Professor","Lothar – er ist Nathanaels Freund"],
+    a: 1,
+    fb: "Clara repräsentiert die Aufklärung. Sie erklärt Nathanaels Ängste als 'Phantom des eigenen Ichs' und glaubt an rationale Erklärungen."
+  },
+  {
+    q: "Womit beschimpft Nathanael Clara, als sie versucht, seine Ängste rational zu erklären?",
+    opts: ["Er nennt sie 'kalte Vernunftpflanze'","Er nennt sie 'lebloses Automatenbild'","Er nennt sie 'blinde Philosophin'","Er nennt sie 'Sandmännchin'"],
+    a: 1,
+    fb: "Nathanael beschimpft Clara als 'lebloses Automatenbild' – eine bittere Ironie, da er sich kurz darauf in die tatsächlich leblose Olimpia verliebt."
+  },
+  {
+    q: "Wer rettet Clara auf dem Ratsturm?",
+    opts: ["Nathanaels Vater","Spalanzani","Siegmund","Lothar"],
+    a: 3,
+    fb: "Lothar, Claras Bruder und Nathanaels Freund, rettet Clara im letzten Moment, als Nathanael versucht, sie vom Turm zu werfen."
+  },
+  {
+    q: "Was sind Nathanaels letzte Worte, bevor er sich in den Tod stürzt?",
+    opts: ["'Feuer! Feuer!'","'Holzpüppchen dreh dich!'","'Sköne Oke – sköne Oke!'","'Coppelius! Coppelius!'"],
+    a: 2,
+    fb: "Nathanaels letzte Worte sind 'Sköne Oke – sköne Oke!' – er wiederholt Coppolas Ruf, was seine völlige Verstrickung in den Wahn zeigt."
+  },
+  {
+    q: "Was passiert mit Spalanzani nach der Enthüllung von Olimpia?",
+    opts: ["Er wird ins Gefängnis gesperrt","Er flieht nach Italien","Er muss die Universität verlassen","Er stirbt an Scham"],
+    a: 2,
+    fb: "Spalanzani muss die Universität verlassen, weil er die Gesellschaft mit einer Puppe betrogen hat."
+  },
+  {
+    q: "Wie lautet das Schlussbild der Erzählung?",
+    opts: ["Nathanael wird begraben und vergessen","Clara wird als Nonne gesehen","Clara lebt mit einem freundlichen Mann und zwei Kindern – bürgerliches Glück","Die Stadt wird von einer Katastrophe heimgesucht"],
+    a: 2,
+    fb: "Am Ende wird Clara Jahre später mit einem 'freundlichen Mann' und zwei Kindern gesehen – sie hat das bürgerliche Glück gefunden, das Nathanael durch seinen Wahn verwirkt hat."
+  },
+  {
+    q: "Wofür steht das Augen-Motiv laut Interpretation?",
+    opts: ["Für Reichtum und Macht","Für die Seele und die Wahrnehmung der Realität","Für den Tod und das Jenseits","Für Liebe und Treue"],
+    a: 1,
+    fb: "Die Augen symbolisieren die Seele und die Fähigkeit, Realität wahrzunehmen. Wer die Augen (oder das klare Sehen) verliert, verliert seine Verbindung zur Realität."
+  },
+  {
+    q: "Was beschreibt das Konzept 'Das Unheimliche' nach Freud im Kontext des Sandmanns?",
+    opts: ["Das Böse kommt immer von Außen, vom völlig Fremden","Das Unheimliche entsteht durch das Vertraute, das plötzlich fremd oder bedrohlich wird","Das Unheimliche ist nur für Kinder spürbar","Das Unheimliche ist ein literarisches Stilmittel ohne psychologische Grundlage"],
+    a: 1,
+    fb: "Das Unheimliche entsteht nicht durch das völlig Fremde, sondern durch das Vertraute, das fremd wird – z.B. eine Puppe, die fast wie ein Mensch wirkt (Olimpia), oder ein bekannter Händler (Coppola), der plötzlich als alte Bedrohung erscheint."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion(i) {
+  const q = questions[i];
+  const area = document.getElementById('quiz-area');
+  const letters = ['A','B','C','D'];
+  area.innerHTML = `
+    <div class="question-card" id="qcard">
+      <div class="q-number">Frage ${i+1} von ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o,idx) => `
+          <button class="option-btn" id="opt-${idx}" onclick="selectAnswer(${idx})">
+            <span class="option-letter">${letters[idx]}</span>${o}
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  `;
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('btn-restart').style.display = 'none';
+  answered = false;
+  updateProgress();
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const fb = document.getElementById('feedback');
+  for (let i=0;i<4;i++){
+    const b = document.getElementById('opt-'+i);
+    b.disabled = true;
+    if(i === q.a) b.classList.add('correct');
+    else if(i === idx && idx !== q.a) b.classList.add('wrong');
+  }
+  if(idx === q.a) {
+    score++;
+    fb.textContent = '✅ Richtig! ' + q.fb;
+    fb.className = 'feedback show correct-fb';
+  } else {
+    fb.textContent = '❌ Leider falsch. ' + q.fb;
+    fb.className = 'feedback show wrong-fb';
+  }
+  updateProgress();
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQuestion() {
+  current++;
+  if(current >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion(current);
+  }
+}
+
+function updateProgress() {
+  const total = questions.length;
+  document.getElementById('q-counter').textContent = `Frage ${current+1} / ${total}`;
+  document.getElementById('q-progress').style.width = `${((current) / total) * 100}%`;
+  document.getElementById('q-score-live').textContent = `${score} / ${current + (answered?1:0)}`;
+}
+
+function showResult() {
+  document.getElementById('quiz-area').innerHTML = '';
+  document.getElementById('btn-next').style.display = 'none';
+  const box = document.getElementById('result-box');
+  box.classList.add('show');
+  document.getElementById('result-score').textContent = `${score} / ${questions.length}`;
+  document.getElementById('btn-restart').style.display = 'inline-block';
+  const pct = score / questions.length;
+  let emoji, msg;
+  if(pct >= 0.93){ emoji='🌟'; msg='Perfekt! Du schaffst locker 15 Notenpunkte!'; }
+  else if(pct >= 0.8){ emoji='🎉'; msg='Sehr gut! Du bist bestens vorbereitet.'; }
+  else if(pct >= 0.6){ emoji='👍'; msg='Gut! Noch ein paar Details wiederholen.'; }
+  else { emoji='📚'; msg='Noch etwas Übung nötig – nochmal durch die Tabs!'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('q-progress').style.width = '100%';
+}
+
+function restartQuiz() {
+  current = 0; score = 0; answered = false;
+  document.getElementById('result-box').classList.remove('show');
+  document.getElementById('btn-next').style.display = '';
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('btn-restart').style.display = 'none';
+  renderQuestion(0);
+}
+
+// Init
+renderQuestion(0);
+</script>
+</body>
+</html>
