@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch Klausur – Lernübersicht</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e11;
+    --surface: #1a1820;
+    --surface2: #231f2e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0ecff;
+    --muted: #9991b8;
+    --accent: #c4b5fd;
+    --accent2: #a78bfa;
+    --gold: #f0c56e;
+    --teal: #6ee7c5;
+    --red: #ff7b7b;
+    --orange: #ffac6e;
+    --green: #86efac;
+    --blue: #7dd3fc;
+    --pill-must: rgba(110,231,197,0.15);
+    --pill-must-text: #6ee7c5;
+    --pill-nice: rgba(125,211,252,0.15);
+    --pill-nice-text: #7dd3fc;
+    --pill-heard: rgba(240,197,110,0.15);
+    --pill-heard-text: #f0c56e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .header {
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 0.5px solid var(--border2);
+    background: linear-gradient(135deg, #1a0a35 0%, #0f0e11 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner { max-width: 860px; margin: 0 auto; position: relative; }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .header-meta {
+    display: flex; gap: 1.5rem; margin-top: 0.6rem; flex-wrap: wrap;
+  }
+  .meta-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted);
+  }
+  .meta-pill span { color: var(--accent); font-weight: 500; }
+  .tabs {
+    display: flex; gap: 0; overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 0.5px solid var(--border2);
+    padding: 0 2rem;
+    max-width: 100%;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .tab-btn {
+    padding: 0.9rem 1.3rem;
+    border: none; background: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent2); }
+  .content { max-width: 860px; margin: 0 auto; padding: 2rem; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── Section titles ── */
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem; font-weight: 500;
+    color: var(--text);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 0.5px;
+    background: var(--border2);
+  }
+  .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; }
+
+  /* ── Flow steps (Ablauf) ── */
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step {
+    display: flex; gap: 0;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 44px;
+    width: 2px; height: calc(100% - 20px);
+    background: var(--border2);
+    z-index: 0;
+  }
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1.5px solid var(--accent2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500; color: var(--accent);
+    flex-shrink: 0; margin-top: 4px;
+    position: relative; z-index: 1;
+  }
+  .step-body {
+    padding: 0 0 1.8rem 1rem;
+    flex: 1;
+  }
+  .step-body h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem; font-weight: 500;
+    color: var(--text); margin-bottom: 0.3rem;
+  }
+  .step-body p { color: var(--muted); font-size: 14px; }
+  .step-body ul {
+    list-style: none; margin-top: 0.5rem;
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .step-body ul li {
+    font-size: 14px; color: var(--muted);
+    padding-left: 1rem; position: relative;
+  }
+  .step-body ul li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--accent2); font-size: 12px;
+  }
+  .step-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 500;
+    padding: 2px 8px; border-radius: 20px;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .tag-warn { background: rgba(255,172,110,0.15); color: var(--orange); }
+  .tag-info { background: rgba(196,181,253,0.15); color: var(--accent); }
+  .tag-good { background: rgba(134,239,172,0.15); color: var(--green); }
+
+  /* ── Tip boxes ── */
+  .tipbox {
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    border-left: 3px solid;
+    font-size: 14px;
+  }
+  .tipbox-warn { background: rgba(255,172,110,0.07); border-color: var(--orange); }
+  .tipbox-good { background: rgba(134,239,172,0.07); border-color: var(--green); }
+  .tipbox-info { background: rgba(196,181,253,0.08); border-color: var(--accent2); }
+  .tipbox-gold { background: rgba(240,197,110,0.08); border-color: var(--gold); }
+  .tipbox strong { display: block; font-weight: 500; margin-bottom: 0.3rem; }
+  .tipbox.warn strong { color: var(--orange); }
+  .tipbox.good strong { color: var(--green); }
+  .tipbox-info strong { color: var(--accent); }
+  .tipbox-gold strong { color: var(--gold); }
+
+  /* ── Rhet Mittel ── */
+  .category-label {
+    display: flex; align-items: center; gap: 10px;
+    margin: 2rem 0 0.8rem;
+  }
+  .cat-badge {
+    font-size: 12px; font-weight: 500;
+    padding: 4px 14px; border-radius: 20px;
+  }
+  .cat-must { background: var(--pill-must); color: var(--pill-must-text); }
+  .cat-nice { background: var(--pill-nice); color: var(--pill-nice-text); }
+  .cat-heard { background: var(--pill-heard); color: var(--pill-heard-text); }
+  .cat-desc { font-size: 13px; color: var(--muted); }
+
+  .mittel-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+  }
+  .mittel-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .mittel-card:hover { border-color: var(--accent2); background: var(--surface2); }
+  .mittel-card.expanded { border-color: var(--accent2); background: var(--surface2); }
+  .mittel-name {
+    font-weight: 500; font-size: 14px; color: var(--text);
+    margin-bottom: 3px;
+  }
+  .mittel-short { font-size: 13px; color: var(--muted); }
+  .mittel-details { display: none; margin-top: 0.7rem; }
+  .mittel-card.expanded .mittel-details { display: block; }
+  .mittel-example {
+    font-size: 13px; color: var(--teal);
+    font-style: italic;
+    background: rgba(110,231,197,0.07);
+    border-radius: 6px; padding: 5px 9px;
+    margin: 6px 0;
+  }
+  .mittel-wirkung {
+    font-size: 12px; color: var(--muted);
+  }
+  .mittel-wirkung span { color: var(--accent); }
+
+  /* ── Tips Tab ── */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 2rem; }
+  @media(max-width:600px){ .tips-grid { grid-template-columns: 1fr; } }
+  .tip-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px; padding: 1rem 1.1rem;
+  }
+  .tip-card h4 {
+    font-size: 14px; font-weight: 500; color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .tip-card p, .tip-card li { font-size: 14px; color: var(--muted); }
+  .tip-card ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .tip-card ul li { padding-left: 1rem; position: relative; }
+  .tip-card ul li::before { content: '·'; position: absolute; left: 0; color: var(--accent2); }
+
+  .ohren-box {
+    background: var(--surface2);
+    border: 1px solid var(--accent2);
+    border-radius: 12px; padding: 1.3rem 1.4rem;
+    margin: 1rem 0;
+  }
+  .ohren-box h4 {
+    font-family: 'Fraunces', serif;
+    color: var(--accent); font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  .ohren-example {
+    background: rgba(196,181,253,0.08);
+    border-radius: 8px; padding: 0.8rem 1rem;
+    font-size: 14px; color: var(--text);
+    font-style: italic; line-height: 1.7;
+    border-left: 2px solid var(--accent2);
+  }
+
+  /* ── Vorbereitung ── */
+  .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:600px){ .prep-grid { grid-template-columns: 1fr; } }
+  .prep-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px; padding: 1rem 1.1rem;
+  }
+  .prep-card h4 {
+    font-size: 15px; font-weight: 500; color: var(--gold);
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 0.6rem;
+  }
+  .prep-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .prep-card ul li { font-size: 14px; color: var(--muted); padding-left: 1.2rem; position: relative; }
+  .prep-card ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 11px; }
+
+  .timeline {
+    display: flex; flex-direction: column; gap: 0;
+    margin: 1.5rem 0;
+  }
+  .tl-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding-bottom: 1.2rem;
+    position: relative;
+  }
+  .tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 42px; top: 30px;
+    width: 1px; height: calc(100% - 10px);
+    background: var(--border2);
+  }
+  .tl-time {
+    width: 68px;
+    text-align: right;
+    font-size: 13px; font-weight: 500;
+    color: var(--gold);
+    flex-shrink: 0; padding-top: 3px;
+  }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%; background: var(--accent2);
+    flex-shrink: 0; margin-top: 6px;
+  }
+  .tl-text { font-size: 14px; color: var(--muted); }
+  .tl-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+  .sanduhr-visual {
+    display: flex; gap: 1rem; margin: 1rem 0;
+    align-items: stretch;
+  }
+  .sanduhr-col {
+    flex: 1; background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px; padding: 1rem;
+  }
+  .sanduhr-col h5 {
+    font-size: 13px; font-weight: 500;
+    color: var(--accent); margin-bottom: 0.5rem;
+    letter-spacing: 0.03em; text-transform: uppercase;
+  }
+  .sanduhr-col ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .sanduhr-col ul li { font-size: 13px; color: var(--muted); padding-left: 1rem; position: relative; }
+  .sanduhr-col ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent2); font-size: 10px; }
+
+  .deckblatt-box {
+    background: var(--surface2);
+    border: 0.5px solid var(--border2);
+    border-radius: 12px; padding: 1.3rem 1.5rem;
+    margin: 1rem 0;
+    font-size: 14px;
+  }
+  .deckblatt-box h4 { color: var(--teal); margin-bottom: 0.7rem; font-weight: 500; }
+  .deckblatt-box .field {
+    display: flex; gap: 1rem;
+    border-bottom: 0.5px solid var(--border);
+    padding: 5px 0; color: var(--muted);
+  }
+  .deckblatt-box .field:last-child { border-bottom: none; }
+  .deckblatt-box .field-label { width: 160px; flex-shrink: 0; color: var(--muted); }
+  .deckblatt-box .field-value { color: var(--text); font-weight: 500; }
+
+  .highlight-quote {
+    border-left: 2px solid var(--gold);
+    padding: 0.7rem 1rem;
+    background: rgba(240,197,110,0.05);
+    border-radius: 0 8px 8px 0;
+    font-size: 14px; font-style: italic;
+    color: var(--text);
+    margin: 0.8rem 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <h1>Deutsch Klausur – Lernübersicht</h1>
+    <div class="header-meta">
+      <span class="meta-pill">📅 Morgen, <span>13. Mai 2026 · 10:00 Uhr</span></span>
+      <span class="meta-pill">⏱ <span>180 Minuten</span></span>
+      <span class="meta-pill">📖 Werk: <span>Der Sandmann</span></span>
+      <span class="meta-pill">✍️ <span>Literarische Erörterung</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('ablauf')">① Ablauf</button>
+  <button class="tab-btn" onclick="showTab('rhet')">② Rhetorische Mittel</button>
+  <button class="tab-btn" onclick="showTab('tipps')">③ Klausur-Tipps</button>
+  <button class="tab-btn" onclick="showTab('prep')">④ Vorbereitung</button>
+</div>
+
+<!-- ══════════════════ TAB 1: ABLAUF ══════════════════ -->
+<div id="tab-ablauf" class="tab-panel active">
+<div class="content">
+
+  <p class="section-title">Was ist eine Literarische Erörterung?</p>
+  <p style="color:var(--muted); font-size:14px; margin-bottom:1rem;">
+    Du bekommst einen <strong style="color:var(--text)">Außentext</strong> (Zitat oder Sachtextausschnitt) + eine <strong style="color:var(--text)">Ganzschrift</strong> (z.B. den Sandmann).
+    Aufgabe: Den Außentext analysieren/zusammenfassen – dann prüfen, <em>inwieweit</em> die darin genannten Kernaspekte auf das Werk zutreffen. Kein Buchreferat, sondern eine <em>argumentierende</em> Auseinandersetzung.
+  </p>
+
+  <div class="tipbox tipbox-warn">
+    <strong>⚠ Häufige Fehler</strong>
+    <ul style="list-style:none; display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+      <li style="font-size:13px; color:var(--muted)">· Den Außentext ignorieren und nur über den Sandmann schreiben → sofort Punktabzug</li>
+      <li style="font-size:13px; color:var(--muted)">· Keine Verknüpfung zwischen Außentext und Werk → kein Erörtern</li>
+      <li style="font-size:13px; color:var(--muted)">· Vergangenheitsform benutzen statt <strong style="color:var(--text)">Präsens</strong></li>
+      <li style="font-size:13px; color:var(--muted)">· Kein abschließendes Fazit / keine eigene Stellung</li>
+      <li style="font-size:13px; color:var(--muted)">· Zitate ohne Zeilenangabe (Vgl. Z. xx)</li>
+    </ul>
+  </div>
+
+  <p class="section-title" style="margin-top:2rem">Der Aufbau – Schritt für Schritt</p>
+
+  <div class="flow">
+
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <span class="step-tag tag-info">Einleitung</span>
+        <h3>Ohrenöffner + TATTE</h3>
+        <ul>
+          <li>Ohrenöffner: Lebensweltbezug, eigene Erfahrung oder Begriffsdefinition → Leser abholen</li>
+          <li>TATTE = Autor, Titel, Thema, Erscheinungsjahr, ggf. Erscheinungskontext</li>
+          <li>Kernthese des Außentexts in 1–2 Sätzen nennen</li>
+          <li>Keine Wertung, keine Textbeispiele aus dem Werk hier!</li>
+        </ul>
+        <div class="tipbox tipbox-info" style="margin-top:0.8rem">
+          <strong>Was der Lehrer will</strong>
+          Der Ohrenöffner ist entscheidend – er zeigt, ob du schreiben kannst. Schreib einen thematischen Aufhänger, keine Floskeln wie „Seit jeher beschäftigt sich die Menschheit mit…"
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <span class="step-tag tag-info">Hauptteil I</span>
+        <h3>Kerngedanken des Außentextes</h3>
+        <ul>
+          <li>Wichtigste Aussagen im <strong style="color:var(--text)">Präsens</strong> zusammenfassen</li>
+          <li>Angaben aus dem Außentext <strong style="color:var(--text)">zitieren oder paraphrasieren</strong> (Vgl. Z. xx)</li>
+          <li>Intention/Absicht des Autors benennen (bei längeren Texten)</li>
+          <li>Mehrdeutige Begriffe erläutern</li>
+          <li>Eigene Wertung: <em>noch nicht</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <span class="step-tag tag-info">Überleitung</span>
+        <h3>Brücke zum Werk</h3>
+        <ul>
+          <li>Überblicksartig: Inwiefern ist das Thema für den Sandmann relevant?</li>
+          <li>Basissatz zur Ganzschrift (Autor, Werk, Epoche, Grundthema)</li>
+          <li>Formulierung: „Dieses Thema lässt sich unmittelbar auf Hoffmanns Sandmann übertragen, da…"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <span class="step-tag tag-warn">Hauptteil II – Kernstück!</span>
+        <h3>Erörterung der Ganzschrift</h3>
+        <ul>
+          <li>Kerngedanken des Außentexts einordnen: Trifft das auf den Sandmann zu?</li>
+          <li><strong style="color:var(--text)">Pro und Kontra</strong> (Sanduhr-Modell!) – oder differenziert argumentieren</li>
+          <li>Konkrete Textstellen aus dem Sandmann mit Zeilenangabe</li>
+          <li>Gemeinsamkeiten UND Unterschiede zwischen Außentext-These und Werk</li>
+          <li>Formulierungshilfen nutzen: „einerseits…andererseits", „das trifft teilweise zu, weil…"</li>
+        </ul>
+        <div class="tipbox tipbox-good" style="margin-top:0.8rem">
+          <strong>Das Sanduhr-Modell</strong>
+          Erst Pro-Argumente (These stützen) → dann Kontra-Argumente (einschränken/widerlegen) → dann eigene Positionierung. Absätze dazwischen nicht vergessen!
+        </div>
+        <div class="sanduhr-visual">
+          <div class="sanduhr-col">
+            <h5>Pro (Außentext trifft zu)</h5>
+            <ul>
+              <li>Textbeleg mit Z.-Angabe</li>
+              <li>Erläuterung + Einordnung</li>
+              <li>Verbindung zur These</li>
+            </ul>
+          </div>
+          <div class="sanduhr-col">
+            <h5>Kontra (Einschränkungen)</h5>
+            <ul>
+              <li>Wo trifft es nicht zu?</li>
+              <li>Textbeleg dagegen</li>
+              <li>„einschränkend muss gelten…"</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <span class="step-tag tag-good">Schluss</span>
+        <h3>Fazit + eigene Stellung</h3>
+        <ul>
+          <li>Abschließende Bewertung: Inwiefern treffen die beiden Texte aufeinander?</li>
+          <li>Keine neuen Argumente!</li>
+          <li>Ggf. Aktualitätsbezug / eigene Stellung</li>
+          <li>Das Fazit IST der Schluss – nicht beides getrennt schreiben</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="section-title" style="margin-top:2rem">Formulierungshilfen</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+    <div style="background:var(--surface); border-radius:8px; padding:0.7rem 0.9rem; font-size:13px; color:var(--muted);">weder…noch · einerseits…andererseits</div>
+    <div style="background:var(--surface); border-radius:8px; padding:0.7rem 0.9rem; font-size:13px; color:var(--muted);">das trifft teilweise/überwiegend zu, weil…</div>
+    <div style="background:var(--surface); border-radius:8px; padding:0.7rem 0.9rem; font-size:13px; color:var(--muted);">einschränkend muss festgehalten werden, dass…</div>
+    <div style="background:var(--surface); border-radius:8px; padding:0.7rem 0.9rem; font-size:13px; color:var(--muted);">Dennoch muss darauf hingewiesen werden, dass…</div>
+    <div style="background:var(--surface); border-radius:8px; padding:0.7rem 0.9rem; font-size:13px; color:var(--muted);">Während dieser Gedanke sich problemlos/eher nicht übertragen lässt, ist…</div>
+    <div style="background:var(--surface); border-radius:8px; padding:0.7rem 0.9rem; font-size:13px; color:var(--muted);">dieser Befund lässt sich auf… übertragen, zumal / da…</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ TAB 2: RHETORISCHE MITTEL ══════════════════ -->
+<div id="tab-rhet" class="tab-panel">
+<div class="content">
+  <p style="color:var(--muted); font-size:14px; margin-bottom:0.5rem;">Klicke eine Karte an für Beispiel & Wirkung.</p>
+
+  <!-- MUSS -->
+  <div class="category-label">
+    <span class="cat-badge cat-must">🔥 Unbedingt kennen</span>
+    <span class="cat-desc">Diese Mittel kommen garantiert vor – kennst du sie nicht, verlierst du Punkte</span>
+  </div>
+  <div class="mittel-grid">
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Metapher</div>
+      <div class="mittel-short">Bildlicher Ausdruck ohne Vergleichswort</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Baumkrone", „Du bist mein Sonnenschein"</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, bildhaft</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Personifikation</div>
+      <div class="mittel-short">Vermenschlichung von Dingen/Tieren</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Der Wind heulte leise."</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, emotional</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Hyperbel</div>
+      <div class="mittel-short">Starke Übertreibung</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Ich warte schon seit einer Ewigkeit auf dich."</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, dramatisierend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die rhetorische Frage</div>
+      <div class="mittel-short">Scheinfrage ohne erwartete Antwort</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Wer kann dazu schon nein sagen?"</div>
+        <div class="mittel-wirkung">Wirkung: <span>verstärkend, einbeziehend, eindringlich</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Alliteration</div>
+      <div class="mittel-short">Gleicher Anfangslaut bei mehreren Wörtern</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Milch macht müde Männer munter"</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, einprägsam, rhythmisch</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">der Parallelismus</div>
+      <div class="mittel-short">Syntaktisch symmetrischer Satzaufbau</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Er kam, er sah, er siegte."</div>
+        <div class="mittel-wirkung">Wirkung: <span>eindringlich, einprägsam, betonend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Klimax</div>
+      <div class="mittel-short">Steigerung vom Schwächeren zum Stärkeren</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Ich möchte Deutschland bereisen, Europa, die ganze Welt!"</div>
+        <div class="mittel-wirkung">Wirkung: <span>eindringlich, steigernd, dramatisch</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Antithese</div>
+      <div class="mittel-short">Gegensätzliche Begriffe gegenübergestellt</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Geben und Nehmen"</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, kontrastierend, einprägsam</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Ironie</div>
+      <div class="mittel-short">Gesagtes meint das Gegenteil</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Na, das hast du ja ganz toll gemacht."</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, oft kritisch</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Anapher</div>
+      <div class="mittel-short">Wortwiederholung am Satzanfang</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Das Wasser rauscht, das Wasser schwoll." (Goethe)</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, einprägsam, rhythmisch</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">der Vergleich</div>
+      <div class="mittel-short">Vergleich mit „als" oder „wie"</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Mutig wie ein Löwe"</div>
+        <div class="mittel-wirkung">Wirkung: <span>anschaulich, betonend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Allegorie</div>
+      <div class="mittel-short">Gedanke durch verwandtes Bild konkretisiert</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Sensenmann" für Tod</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, verbildlichend</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NICE TO HAVE -->
+  <div class="category-label">
+    <span class="cat-badge cat-nice">💡 Nice to have</span>
+    <span class="cat-desc">Bringt Pluspunkte – lohnt sich zu kennen</span>
+  </div>
+  <div class="mittel-grid">
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Ellipse</div>
+      <div class="mittel-short">Satzteile ausgelassen, trotzdem verständlich</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Je mehr, desto besser."</div>
+        <div class="mittel-wirkung">Wirkung: <span>verknappend, eindringlich</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">das Oxymoron</div>
+      <div class="mittel-short">Kombination widersprüchlicher Begriffe</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Offenes Geheimnis", „bittersüß"</div>
+        <div class="mittel-wirkung">Wirkung: <span>verschärfend, aufmerksamkeitserregend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Inversion</div>
+      <div class="mittel-short">Wortstellung umgekehrt, Betonung verschoben</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Gestorben ist er."</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, hervorhebend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Repetitio</div>
+      <div class="mittel-short">Wiederholung von Wörtern / Satzteilen</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Mein Gott, mein Gott, warum hast du mich verlassen?"</div>
+        <div class="mittel-wirkung">Wirkung: <span>verstärkend, eindringlich</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">das Symbol</div>
+      <div class="mittel-short">Konkretes Bild für abstrakte Begriffe</div>
+      <div class="mittel-details">
+        <div class="mittel-example">Taube für Frieden; Kreuz für Christentum</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, einprägsam</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Litotes</div>
+      <div class="mittel-short">Doppelte Verneinung / Untertreibung</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Ich habe keine Angst davor, nicht die große Liebe zu finden."</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, verharmlosend / verstärkend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">das Asyndeton</div>
+      <div class="mittel-short">Aufzählung ohne Konjunktion</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Alles rennet, rettet, flüchtet." (Schiller)</div>
+        <div class="mittel-wirkung">Wirkung: <span>verknappend, eindringlich, dynamisch</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">der Chiasmus</div>
+      <div class="mittel-short">Kreuzweise Stellung bezogener Wörter</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Die Kunst ist lang; und kurz ist unser Leben." (Goethe)</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, kontrastierend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Onomatopoesie</div>
+      <div class="mittel-short">Lautmalerei / klingende Wörter</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„knurren", „rascheln", „Zzzz"</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, atmosphärisch</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MAL GEHÖRT -->
+  <div class="category-label">
+    <span class="cat-badge cat-heard">📚 Mal gehört haben</span>
+    <span class="cat-desc">Erkennst du sie beim Lesen – musst sie nicht aktiv einsetzen</span>
+  </div>
+  <div class="mittel-grid">
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Akkumulation</div>
+      <div class="mittel-short">Mehrere Unterbegriffe eines Oberbegriffs</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Sonne, Mond und Sterne" statt „Gestirne"</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend, verbildlichend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Metonymie</div>
+      <div class="mittel-short">Ersatz durch nahen sachlichen Begriff</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Der Saal applaudiert." statt alle Menschen</div>
+        <div class="mittel-wirkung">Wirkung: <span>veranschaulichend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Euphemismus</div>
+      <div class="mittel-short">Beschönigende Umschreibung</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„entschlafen" statt „sterben"</div>
+        <div class="mittel-wirkung">Wirkung: <span>beschönigend, verharmlosend</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">das Paradoxon</div>
+      <div class="mittel-short">Scheinbar widersprüchliche oder abwegige Aussage</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Weniger ist mehr."</div>
+        <div class="mittel-wirkung">Wirkung: <span>aufmerksamkeitserregend, einprägsam</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Synästhesie</div>
+      <div class="mittel-short">Verschiedene Sinneseindrücke kombiniert</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„schwefliger Nebel", „kreischendes Rot"</div>
+        <div class="mittel-wirkung">Wirkung: <span>betonend, steigernd, intensiv</span></div>
+      </div>
+    </div>
+
+    <div class="mittel-card" onclick="toggleMittel(this)">
+      <div class="mittel-name">die Parenthese</div>
+      <div class="mittel-short">Einschub in einen Satz, der Struktur nicht beeinflusst</div>
+      <div class="mittel-details">
+        <div class="mittel-example">„Er sagte ihr – auch wenn es ihm schwer fiel – auf Wiedersehen."</div>
+        <div class="mittel-wirkung">Wirkung: <span>informativ, betonend</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ TAB 3: TIPPS ══════════════════ -->
+<div id="tab-tipps" class="tab-panel">
+<div class="content">
+
+  <p class="section-title">Die Aufgabenstellung richtig lesen</p>
+  <div class="tipbox tipbox-info">
+    <strong>Wie erkenne ich, was gefragt ist?</strong>
+    In der Aufgabe steht meist sinngemäß: <em>„Analysieren und interpretieren Sie den Außentext. Erörtern Sie anschließend, inwieweit die im Text genannten Aspekte auf [Werk] zutreffen."</em>
+    → Das Verb <strong>„erörtern"</strong> ist das Signal: Du musst Pro & Kontra abwägen, nicht nur zusammenfassen!
+  </div>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>Schritte vor dem Schreiben (10–15 min)</h4>
+      <ul>
+        <li>Aufgabe 2× lesen – was wird verlangt?</li>
+        <li>Außentext markieren: Kernaussagen, Schlüsselbegriffe</li>
+        <li>Kerngedanken des Außentexts in 3–4 Stichpunkten</li>
+        <li>Bezüge zum Sandmann stichpunktartig notieren</li>
+        <li>Kurze Gliederung anlegen (5 Teile!)</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h4>Zeitplanung (180 Min)</h4>
+      <ul>
+        <li>5 Min: Ankommen, lesen, markieren</li>
+        <li>15 Min: Außentext analysieren + Stichpunkte</li>
+        <li>10 Min: Gliederung</li>
+        <li>120 Min: Schreiben</li>
+        <li>15 Min: Korrektur lesen</li>
+        <li>15 Min: Reserve</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h4>Zitieren – so geht's richtig</h4>
+      <ul>
+        <li>Außentext: direkt mit „…" (Vgl. Z. xx) oder paraphrasiert</li>
+        <li>Sandmann: kurzes Zitat + Zeilenangabe / Seitenangabe</li>
+        <li>Keine langen Zitate – lieber paraphrasieren</li>
+        <li>Immer Präsens benutzen!</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h4>Typische Fehler vermeiden</h4>
+      <ul>
+        <li>Kein reines Inhaltsreferat – immer argumentieren!</li>
+        <li>Nicht „ich finde" – sachliche Formulierung wählen</li>
+        <li>Keine neuen Argumente im Fazit</li>
+        <li>Absätze zwischen den Teilen!</li>
+        <li>Vergangenheit → alles im Präsens</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-title" style="margin-top:2rem">Ohrenöffner & TATTE – so schreibst du einen guten Einstieg</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1rem;">
+    <div class="tipbox tipbox-info">
+      <strong>Ohrenöffner – Möglichkeiten</strong>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+        <li style="font-size:13px; color:var(--muted)">① Lebensweltbezug / eigene Erfahrung</li>
+        <li style="font-size:13px; color:var(--muted)">② Begriffsdefinition (Was ist Wahrnehmung? Was ist Identität?)</li>
+        <li style="font-size:13px; color:var(--muted)">③ Zeitbezug / Aktualität des Themas</li>
+        <li style="font-size:13px; color:var(--muted)">④ Provokante oder nachdenkliche Frage</li>
+        <li style="font-size:13px; color:var(--muted)">⑤ Kurzes passendes Zitat (nicht aus dem Text!)</li>
+      </ul>
+    </div>
+    <div class="tipbox tipbox-warn">
+      <strong>TATTE – die 5 Pflichtangaben</strong>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+        <li style="font-size:13px; color:var(--muted)"><strong style="color:var(--text)">T</strong>itel des Außentexts</li>
+        <li style="font-size:13px; color:var(--muted)"><strong style="color:var(--text)">A</strong>utor des Außentexts</li>
+        <li style="font-size:13px; color:var(--muted)"><strong style="color:var(--text)">T</strong>hema / Kernaussage</li>
+        <li style="font-size:13px; color:var(--muted)"><strong style="color:var(--text)">T</strong>extsorte + Erscheinungskontext</li>
+        <li style="font-size:13px; color:var(--muted)"><strong style="color:var(--text)">E</strong>rscheinungsjahr</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-title" style="margin-top:2rem">Beispiel: Ohrenöffner für den Sandmann</p>
+  <p style="color:var(--muted); font-size:13px; margin-bottom:0.7rem">Das ist ein Entwurf – passe ihn an deinen Außentext an, wenn du weißt, worum es geht:</p>
+
+  <div class="ohren-box">
+    <h4>Variante A – Lebensweltbezug (Identität / Wahrnehmung)</h4>
+    <div class="ohren-example">
+      „Wie verlässlich ist das, was wir sehen? Seit der Kindheit prägen uns Geschichten und Bilder, die unsere Wahrnehmung der Wirklichkeit formen – und doch bleibt fraglich, wo die Grenze zwischen Einbildung und Realität verläuft. Genau diese Spannung steht im Mittelpunkt von E.T.A. Hoffmanns Erzählung <em>Der Sandmann</em> (1816), in der der Protagonist Nathanael an eben dieser Frage zerbricht."
+    </div>
+  </div>
+
+  <div class="ohren-box" style="margin-top:1rem">
+    <h4>Variante B – Begriffsdefinition (Romantik / das Unheimliche)</h4>
+    <div class="ohren-example">
+      „Das Unheimliche ist kein Phänomen der Vergangenheit: Künstliche Intelligenz, humanoide Roboter, die Frage nach dem Bewusstsein – all das berührt dieselben Urängste, die die Romantik literarisch verarbeitete. Hoffmanns <em>Der Sandmann</em> (1816) ist ein frühes, erschreckend modernes Zeugnis dieser Auseinandersetzung mit dem, was als vertraut gilt und plötzlich fremd wird."
+    </div>
+  </div>
+
+  <div class="tipbox tipbox-gold" style="margin-top:1.2rem">
+    <strong>🎯 Was den Lehrer überzeugt</strong>
+    Kein generischer Einstieg wie „Seit jeher…" oder „In der heutigen Zeit…". Lieber direkt ins Thema, mit einem klaren Gedanken, der Neugier weckt. Der Ohrenöffner darf ruhig 3–5 Sätze lang sein – er sollte aber direkt zur TATTE überleiten!
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ TAB 4: VORBEREITUNG ══════════════════ -->
+<div id="tab-prep" class="tab-panel">
+<div class="content">
+
+  <p class="section-title">Morgen früh – Zeitplan</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">6:30</div>
+      <div class="tl-dot"></div>
+      <div class="tl-text"><strong>Aufstehen</strong>Alarm, Licht an – kein Snoozen. Kurz strecken.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">6:35</div>
+      <div class="tl-dot"></div>
+      <div class="tl-text"><strong>Frühstück + Lernübersicht</strong>Ruhig essen. Lernübersicht einmal durchgehen – nicht neu lernen, nur auffrischen.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">7:30</div>
+      <div class="tl-dot"></div>
+      <div class="tl-text"><strong>Fertig machen + Material packen</strong>Tasche checken (Liste unten). Deckblatt vorbereiten.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Fahrt</div>
+      <div class="tl-dot"></div>
+      <div class="tl-text"><strong>Mentale Vorbereitung</strong>Keine neuen Inhalte. Formulierungshilfen kurz im Kopf wiederholen. Tief atmen.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">10:00</div>
+      <div class="tl-dot" style="background:var(--gold)"></div>
+      <div class="tl-text"><strong style="color:var(--gold)">Klausur beginnt</strong>Aufgabe 2× lesen. Außentext markieren. Stichpunkte machen. Dann schreiben.</div>
+    </div>
+  </div>
+
+  <div class="prep-grid">
+
+    <div class="prep-card">
+      <h4>🍳 Essen & Trinken</h4>
+      <ul>
+        <li>Gutes Frühstück – Haferflocken, Eier, Vollkorn (kein Zucker-Peak)</li>
+        <li>Wasser mitnehmen (0,5–1L)</li>
+        <li>Optional: Nüsse / Müsliriegel als Snack</li>
+        <li>Keinen Energy Drink – macht nervös</li>
+        <li>Kaffee okay, aber nicht mehr als gewohnt</li>
+      </ul>
+    </div>
+
+    <div class="prep-card">
+      <h4>🎒 Material</h4>
+      <ul>
+        <li>Mehrere Stifte (blau/schwarz + Ersatz)</li>
+        <li>Bleistift + Radiergummi (Gliederung)</li>
+        <li>Lineal (optional, Tabellen)</li>
+        <li>Tipp-Ex / Korrekturroller</li>
+        <li>Uhr (Handy weg!)</li>
+        <li>Personalausweis / Schülerausweis</li>
+        <li>Genug Papier / Klausurbogen</li>
+      </ul>
+    </div>
+
+    <div class="prep-card">
+      <h4>🧠 Mentale Einstellung</h4>
+      <ul>
+        <li>Du kennst den Sandmann – das ist dein Vorteil</li>
+        <li>Lieber ruhig und strukturiert als gehetzt und vollständig</li>
+        <li>Wenn du blockierst: Gliederung ansehen, weiterschreiben</li>
+        <li>Schlechter Start ≠ schlechte Klausur</li>
+        <li>Kein Social Media heute Abend mehr</li>
+        <li>Früh schlafen (23:00 spätestens)</li>
+      </ul>
+    </div>
+
+    <div class="prep-card">
+      <h4>📋 Deckblatt – was drauf muss</h4>
+      <ul>
+        <li>Vor- und Nachname</li>
+        <li>Klasse / Kurs</li>
+        <li>Fach: Deutsch</li>
+        <li>Datum: 13.05.2026</li>
+        <li>Lehrkraft: P. Lang</li>
+        <li>Thema / Aufgabenstellung (wenn bekannt)</li>
+        <li>Seitenzahl nicht vergessen</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <p class="section-title" style="margin-top:2rem">Letzte Nacht – was noch?</p>
+  <div class="tipbox tipbox-good">
+    <strong>✅ Das Richtige jetzt</strong>
+    Diese Übersicht nochmal durchlesen (dauert 20 min). Den Sandmann kurz im Kopf rekapitulieren: Wer ist Nathanael? Coppelius/Coppola, Olimpia, Clara, der Sandmann-Mythos. Dann aufhören. Schlafen. Alles andere schadet mehr als es nützt.
+  </div>
+  <div class="tipbox tipbox-warn">
+    <strong>⚠ Das Falsche jetzt</strong>
+    Bis Mitternacht pauken. Neue Inhalte lernen die du noch nie gehört hast. Sich von Mitschülern verunsichern lassen. Alles wird gut – du hast diese Übersicht gemacht, das ist schon die halbe Miete.
+  </div>
+
+  <div class="highlight-quote">
+    „Schreib strukturiert, zitiere sauber, erörter wirklich – und vergiss das Fazit nicht. Das reicht für eine gute Note."
+  </div>
+
+</div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleMittel(el) {
+  el.classList.toggle('expanded');
+}
+</script>
+</body>
+</html>
